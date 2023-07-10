@@ -70,7 +70,7 @@ HTTPD_USER="www-data"
 HTTPD_USERID="${HTTPD_USERID:-82}"
 HTTPD_GROUP="$HTTPD_USER"
 HTTPD_GROUPID="${HTTPD_GROUPID:-$HTTPD_USERID}"
-HTTPD_HOME="/var/www"
+HTTPD_HOME="${HTTPD_HOME:-/var/www}"
 RUN_USER="$HTTPD_USER"
 
 if [ -n "$(grep "$HTTPD_USER" "/etc/passwd" | cut -d ':' -f3)" ]
@@ -95,6 +95,7 @@ chown -R "$HTTPD_USER:$HTTPD_GROUP" "$HTTPD_HOME"
 HTTPD_IP="${HTTPD_IP:-*}"
 HTTPD_PORT="${HTTPD_PORT:-8080}"
 HTTPD_CONF="${HTTPD_CONF:-/etc/httpd.conf}"
+HTTPD_WEBROOT="${HTTPD_WEBROOT:-$HTTPD_HOME}"
 
 ##############
 # Config run #
@@ -102,7 +103,7 @@ HTTPD_CONF="${HTTPD_CONF:-/etc/httpd.conf}"
 case "$1" in
   '' | 'httpd')
   echo "Start httpd server"
-    START_CMD=(httpd -f -c "$HTTPD_CONF" -h "$HTTPD_HOME" -p "$(if [ -n "$HTTPD_IP" ] && [ "$HTTPD_IP" != "*" ]; then echo "$HTTPD_IP:"; fi)$HTTPD_PORT")
+    START_CMD=(httpd -f -c "$HTTPD_CONF" -h "$HTTPD_WEBROOT" -p "$(if [ -n "$HTTPD_IP" ] && [ "$HTTPD_IP" != "*" ]; then echo "$HTTPD_IP:"; fi)$HTTPD_PORT")
     STOP_CMD=(kill_pid)
   ;;
   *)

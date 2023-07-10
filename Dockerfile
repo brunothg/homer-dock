@@ -1,6 +1,12 @@
 FROM alpine:latest
 LABEL authors="brunothg"
 
+ARG HTTPD_CONF="/etc/httpd/httpd.conf"
+ENV HTTPD_CONF="${HTTPD_CONF}"
+
+ARG HTTPD_HOME="/var/www"
+ENV HTTPD_HOME="$HTTPD_HOME"
+
 # Install dependencies
 RUN set -x && apk add --no-cache --virtual .build-deps \
       wget \
@@ -9,8 +15,8 @@ RUN set -x && apk add --no-cache --virtual .build-deps \
       bash
 
 # Setup server
-COPY src/www/httpd.conf /etc/httpd.conf
-COPY src/www/html/* /var/www/
+COPY src/httpd/httpd.conf "${HTTPD_CONF}"
+COPY src/www/* "$HTTPD_HOME/"
 
 # Clean build artifacts
 RUN set -x && rm -Rf /tmp/* \
