@@ -73,11 +73,11 @@ HTTPD_GROUPID="${HTTPD_GROUPID:-$HTTPD_USERID}"
 HTTPD_HOME="/var/www"
 RUN_USER="$HTTPD_USER"
 
-if [ -n "$(cat /etc/passwd | grep "$HTTPD_USER" | cut -d ':' -f3)" ]
+if [ -n "$(grep "$HTTPD_USER" "/etc/passwd" | cut -d ':' -f3)" ]
 then
   deluser "$HTTPD_USER"
 fi
-if [ -n "$(cat /etc/group | grep "$HTTPD_GROUP" | cut -d ':' -f3)" ]
+if [ -n "$(grep "$HTTPD_GROUP" "/etc/group" | cut -d ':' -f3)" ]
 then
   delgroup "$HTTPD_GROUP"
 fi
