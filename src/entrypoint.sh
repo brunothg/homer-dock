@@ -10,7 +10,7 @@ RUN_USER=""
 RUN_PID=""
 
 check_pid() {
-  if [ "$(ps -eo pid | grep -w "$RUN_PID" | wc -l)" -gt "0" ]
+  if [ "$(ps -eo pid | grep -wc "$RUN_PID")" -gt "0" ]
   then
     echo "1"
   else
