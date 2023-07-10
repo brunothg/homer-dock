@@ -6,7 +6,7 @@ RUN set -x && apk add --no-cache --virtual .build-deps \
       wget \
     && apk add --no-cache \
       busybox-extras \
-    bash
+      bash
 
 # Setup server
 COPY src/www/httpd.conf /etc/httpd.conf
