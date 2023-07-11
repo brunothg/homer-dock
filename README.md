@@ -21,4 +21,4 @@ or `docker run --env-file <image>`:
  * HTTPD_HOME="/var/www"
  * HTTPD_IP=*
  * HTTPD_PORT=8080
- * HTTPD_WEBROOT="$HTTPD_HOME"
+ * HTTPD_WEBROOT="/"
