@@ -69,9 +69,9 @@ run() {
 HTTPD_IP="${HTTPD_IP:-*}"
 HTTPD_PORT="${HTTPD_PORT:-8080}"
 HTTPD_CONF="${HTTPD_CONF:-/etc/httpd.conf}"
-HTTPD_WEBROOT="${HTTPD_WEBROOT:-/testsub}"
+HTTPD_WEBROOT="${HTTPD_WEBROOT:-/}"
 
-if [ -n "$HTTPD_WEBROOT" ]
+if [ -n "$HTTPD_WEBROOT" ] && [ "$HTTPD_WEBROOT" != "/" ]
 then
   echo "Change webroot to '$HTTPD_WEBROOT'"
   tmp_dir="$(mktemp -d)"
