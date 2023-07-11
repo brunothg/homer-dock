@@ -22,10 +22,10 @@ source "$DIR_SCRIPT/project.conf"
 PROJECT_DTAG="$PROJECT_DTAG"
 if [ -z "$PROJECT_DTAG" ]
 then
-  PROJECT_DTAG="localhost/$PROJECT_NAME:$PROJECT_VERSION"
+  PROJECT_DTAG="localhost/${PROJECT_NAME:?}:${PROJECT_VERSION:?}"
 fi
 
 ######################
 # Build docker image #
 ######################
-docker build -t "$PROJECT_DTAG" .
+docker build -t "$PROJECT_DTAG" --build-arg ALPINE_VERSION="${ALPINE_VERSION:?}" --build-arg HOMER_VERSION="${HOMER_VERSION:?}" .

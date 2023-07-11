@@ -1,5 +1,9 @@
-FROM alpine:latest
+ARG ALPINE_VERSION="latest"
+
+FROM alpine:$ALPINE_VERSION
 LABEL authors="brunothg"
+
+ENV ALPINE_VERSION="$ALPINE_VERSION"
 
 ARG HTTPD_CONF="/etc/httpd/httpd.conf"
 ENV HTTPD_CONF="${HTTPD_CONF}"
