@@ -78,6 +78,12 @@ then
   cp -a "$HTTPD_HOME/." "$tmp_dir" && rm -rf "${HTTPD_HOME:?}"/*
   mkdir -p "${HTTPD_HOME}${HTTPD_WEBROOT}"
   cp -a "$tmp_dir/." "${HTTPD_HOME}${HTTPD_WEBROOT}" && rm -rf "$tmp_dir"
+
+  cgi_bin="${HTTPD_HOME}${HTTPD_WEBROOT}/cgi-bin"
+  if [ -d "$cgi_bin" ]
+  then
+    mv "$cgi_bin" "$HTTPD_HOME"
+  fi
 fi
 
 

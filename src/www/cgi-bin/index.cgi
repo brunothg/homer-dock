@@ -1,0 +1,48 @@
+#!/bin/bash
+
+## Env
+SELF_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
+SELF_DIR="$(dirname "$SELF_SCRIPT")"
+HTTPD_HOME="${HTTPD_HOME:-"$(realpath "$SELF_DIR/..")"}"
+REQUEST_PATH="$(realpath "${HTTPD_HOME}${REQUEST_URI}")"
+
+export REQUEST_PATH
+
+
+## Http handling
+declare -A RESPONSE_HEADERS=( [Status]="200 OK" [Content-Type]="text/plain" )
+RESPONSE_BODY=""
+
+send_response() {
+  ## Send response
+  # Headers
+  for key in "${!RESPONSE_HEADERS[@]}"; do printf "%s: %s\r\n" "$key" "${RESPONSE_HEADERS[$key]}"; done
+  printf "\r\n"
+  # Body
+  if [ -n "$RESPONSE_BODY" ]
+  then
+    echo "$RESPONSE_BODY"
+  fi
+
+  exit 0
+}
+
+
+## Request handling
+# Test Index redirect
+if [ "$REQUEST_PATH" != "$SELF_SCRIPT" ]
+then
+  for file in "index.html" "index.php"
+  do
+    if [ -f "$REQUEST_PATH/$file" ]
+    then
+      RESPONSE_HEADERS[Status]="307 Temporary Redirect"
+      RESPONSE_HEADERS[Location]="$file"
+      send_response
+    fi
+  done
+fi
+
+# Send default 404
+RESPONSE_HEADERS[Status]="404 Not Found"
+send_response
