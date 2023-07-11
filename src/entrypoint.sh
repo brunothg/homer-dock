@@ -63,6 +63,24 @@ run() {
 }
 
 
+#####################
+# HTTPD environment #
+#####################
+HTTPD_IP="${HTTPD_IP:-*}"
+HTTPD_PORT="${HTTPD_PORT:-8080}"
+HTTPD_CONF="${HTTPD_CONF:-/etc/httpd.conf}"
+HTTPD_WEBROOT="${HTTPD_WEBROOT:-/testsub}"
+
+if [ -n "$HTTPD_WEBROOT" ]
+then
+  echo "Change webroot to '$HTTPD_WEBROOT'"
+  tmp_dir="$(mktemp -d)"
+  cp -a "$HTTPD_HOME/." "$tmp_dir" && rm -rf "${HTTPD_HOME:?}"/*
+  mkdir -p "${HTTPD_HOME}${HTTPD_WEBROOT}"
+  cp -a "$tmp_dir/." "${HTTPD_HOME}${HTTPD_WEBROOT}" && rm -rf "$tmp_dir"
+fi
+
+
 ####################
 # User/Group setup #
 ####################
@@ -86,14 +104,6 @@ addgroup --system --gid "$HTTPD_GROUPID" "$HTTPD_GROUP"
 mkdir -p "$HTTPD_HOME"
 adduser --system --home "$HTTPD_HOME" --uid "$HTTPD_USERID" --ingroup "$HTTPD_GROUP" "$HTTPD_USER"
 chown -R "$HTTPD_USER:$HTTPD_GROUP" "$HTTPD_HOME"
-
-
-###################
-# HTTPD variables #
-###################
-HTTPD_IP="${HTTPD_IP:-*}"
-HTTPD_PORT="${HTTPD_PORT:-8080}"
-HTTPD_CONF="${HTTPD_CONF:-/etc/httpd.conf}"
 
 
 ##############
