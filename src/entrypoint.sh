@@ -111,7 +111,8 @@ chown -R "$HTTPD_USER:$HTTPD_GROUP" "$HTTPD_HOME"
 ##############
 case "$1" in
   '' | 'httpd')
-  echo "Start httpd server"
+    echo "Start httpd server"
+    echo "Open localhost:$HTTPD_PORT${HTTPD_WEBROOT:-/}"
     START_CMD=(httpd -f -c "$HTTPD_CONF" -h "$HTTPD_HOME" -p "$(if [ -n "$HTTPD_IP" ] && [ "$HTTPD_IP" != "*" ]; then echo "$HTTPD_IP:"; fi)$HTTPD_PORT")
     STOP_CMD=(kill_pid)
   ;;
