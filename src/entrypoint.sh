@@ -66,10 +66,11 @@ run() {
 #####################
 # HTTPD environment #
 #####################
-HTTPD_IP="${HTTPD_IP:-*}"
-HTTPD_PORT="${HTTPD_PORT:-8080}"
-HTTPD_CONF="${HTTPD_CONF:-/etc/httpd.conf}"
-HTTPD_WEBROOT="${HTTPD_WEBROOT:-/}"
+export HTTPD_IP="${HTTPD_IP:-*}"
+export HTTPD_PORT="${HTTPD_PORT:-8080}"
+export HTTPD_CONF="${HTTPD_CONF:-/etc/httpd.conf}"
+export HTTPD_WEBROOT="${HTTPD_WEBROOT:-/}"
+export CGI_REDIRECT_STATUS="${CGI_REDIRECT_STATUS:-1}"
 
 if [ -n "$HTTPD_WEBROOT" ] && [ "$HTTPD_WEBROOT" != "/" ]
 then
@@ -90,11 +91,11 @@ fi
 ####################
 # User/Group setup #
 ####################
-HTTPD_USER="www-data"
-HTTPD_USERID="${HTTPD_USERID:-82}"
-HTTPD_GROUP="$HTTPD_USER"
-HTTPD_GROUPID="${HTTPD_GROUPID:-$HTTPD_USERID}"
-HTTPD_HOME="${HTTPD_HOME:-/var/www}"
+export HTTPD_USER="www-data"
+export HTTPD_USERID="${HTTPD_USERID:-82}"
+export HTTPD_GROUP="$HTTPD_USER"
+export HTTPD_GROUPID="${HTTPD_GROUPID:-$HTTPD_USERID}"
+export HTTPD_HOME="${HTTPD_HOME:-/var/www}"
 RUN_USER="$HTTPD_USER"
 
 if [ -n "$(grep "$HTTPD_USER" "/etc/passwd" | cut -d ':' -f3)" ]
