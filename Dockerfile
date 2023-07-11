@@ -10,8 +10,11 @@ ENV HTTPD_HOME="$HTTPD_HOME"
 ARG HOMER_VERSION="latest"
 ENV HOMER_VERSION="$HOMER_VERSION"
 
+
 # Setup environment
 WORKDIR "${HTTPD_HOME}"
+COPY src/httpd/execute.sh /usr/local/bin/execute
+COPY src/httpd/php.override.ini /etc/php82/conf.d/php.override.ini
 RUN set -x  \
     && mkdir -p "$HTTPD_HOME" \
     && mkdir -p "$(dirname "$HTTPD_CONF")" \
@@ -22,8 +25,9 @@ RUN set -x  \
       busybox-extras \
       bash \
       php82-cgi \
-    && ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi"
-COPY src/httpd/php.override.ini /etc/php82/conf.d/php.override.ini
+    && ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi" \
+    && chmod 555 /usr/local/bin/execute && dos2unix /usr/local/bin/execute
+
 
 # Setup server
 COPY src/httpd/httpd.conf "${HTTPD_CONF}"
@@ -35,17 +39,16 @@ RUN set -x \
     && mv "${HTTPD_HOME}/assets/config.yml.dist" "${HTTPD_HOME}/assets/config.yml" \
     && find assets/ -type f -maxdepth 1 ! -name '*.json' ! -name '*.yml' \
     && cp -a "/tmp/www/." "${HTTPD_HOME}" \
-    && chmod 550 "${HTTPD_HOME}"/**/*.cgi \
-    && chmod 550 "${HTTPD_HOME}"/**/*.php
+    && find . -type f '(' -iname '*.sh' -o -iname '*.php' -o -iname '*.cgi' ')' -exec chmod 550 {} ';' -exec dos2unix {} ';'
 
 
 # Clean build artifacts
 RUN set -x && rm -Rf /tmp/* \
     && apk del .build-deps
 
+
 # Install entrypoint
 COPY src/entrypoint.sh /root/entrypoint.sh
 RUN set -x \
-    && chmod 500 /root/entrypoint.sh \
-    && dos2unix /root/entrypoint.sh
+    && chmod 500 /root/entrypoint.sh && dos2unix /root/entrypoint.sh
 ENTRYPOINT ["/root/entrypoint.sh"]

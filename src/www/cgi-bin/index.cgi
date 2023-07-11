@@ -36,9 +36,16 @@ then
   do
     if [ -f "$REQUEST_PATH/$file" ]
     then
-      RESPONSE_HEADERS[Status]="307 Temporary Redirect"
-      RESPONSE_HEADERS[Location]="$file"
-      send_response
+      if [ -x "$REQUEST_PATH/$file" ]
+      then
+        export SCRIPT_NAME="$REQUEST_URI/$file"
+        export SCRIPT_FILENAME="$REQUEST_PATH/$file"
+        exec "$REQUEST_PATH/$file"
+      else
+        RESPONSE_HEADERS[Status]="307 Temporary Redirect"
+        RESPONSE_HEADERS[Location]="$file"
+        send_response
+      fi
     fi
   done
 fi
