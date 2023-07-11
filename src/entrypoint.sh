@@ -88,14 +88,13 @@ adduser --system --home "$HTTPD_HOME" --uid "$HTTPD_USERID" --ingroup "$HTTPD_GR
 chown -R "$HTTPD_USER:$HTTPD_GROUP" "$HTTPD_HOME"
 
 
-
 ###################
 # HTTPD variables #
 ###################
 HTTPD_IP="${HTTPD_IP:-*}"
 HTTPD_PORT="${HTTPD_PORT:-8080}"
 HTTPD_CONF="${HTTPD_CONF:-/etc/httpd.conf}"
-HTTPD_WEBROOT="${HTTPD_WEBROOT:-$HTTPD_HOME}"
+
 
 ##############
 # Config run #
@@ -103,7 +102,7 @@ HTTPD_WEBROOT="${HTTPD_WEBROOT:-$HTTPD_HOME}"
 case "$1" in
   '' | 'httpd')
   echo "Start httpd server"
-    START_CMD=(httpd -f -c "$HTTPD_CONF" -h "$HTTPD_WEBROOT" -p "$(if [ -n "$HTTPD_IP" ] && [ "$HTTPD_IP" != "*" ]; then echo "$HTTPD_IP:"; fi)$HTTPD_PORT")
+    START_CMD=(httpd -f -c "$HTTPD_CONF" -h "$HTTPD_HOME" -p "$(if [ -n "$HTTPD_IP" ] && [ "$HTTPD_IP" != "*" ]; then echo "$HTTPD_IP:"; fi)$HTTPD_PORT")
     STOP_CMD=(kill_pid)
   ;;
   *)
