@@ -63,6 +63,24 @@ run() {
 }
 
 
+#####################
+# HTTPD environment #
+#####################
+HTTPD_IP="${HTTPD_IP:-*}"
+HTTPD_PORT="${HTTPD_PORT:-8080}"
+HTTPD_CONF="${HTTPD_CONF:-/etc/httpd.conf}"
+HTTPD_WEBROOT="${HTTPD_WEBROOT:-/}"
+
+if [ -n "$HTTPD_WEBROOT" ] && [ "$HTTPD_WEBROOT" != "/" ]
+then
+  echo "Change webroot to '$HTTPD_WEBROOT'"
+  tmp_dir="$(mktemp -d)"
+  cp -a "$HTTPD_HOME/." "$tmp_dir" && rm -rf "${HTTPD_HOME:?}"/*
+  mkdir -p "${HTTPD_HOME}${HTTPD_WEBROOT}"
+  cp -a "$tmp_dir/." "${HTTPD_HOME}${HTTPD_WEBROOT}" && rm -rf "$tmp_dir"
+fi
+
+
 ####################
 # User/Group setup #
 ####################
@@ -88,22 +106,14 @@ adduser --system --home "$HTTPD_HOME" --uid "$HTTPD_USERID" --ingroup "$HTTPD_GR
 chown -R "$HTTPD_USER:$HTTPD_GROUP" "$HTTPD_HOME"
 
 
-
-###################
-# HTTPD variables #
-###################
-HTTPD_IP="${HTTPD_IP:-*}"
-HTTPD_PORT="${HTTPD_PORT:-8080}"
-HTTPD_CONF="${HTTPD_CONF:-/etc/httpd.conf}"
-HTTPD_WEBROOT="${HTTPD_WEBROOT:-$HTTPD_HOME}"
-
 ##############
 # Config run #
 ##############
 case "$1" in
   '' | 'httpd')
-  echo "Start httpd server"
-    START_CMD=(httpd -f -c "$HTTPD_CONF" -h "$HTTPD_WEBROOT" -p "$(if [ -n "$HTTPD_IP" ] && [ "$HTTPD_IP" != "*" ]; then echo "$HTTPD_IP:"; fi)$HTTPD_PORT")
+    echo "Start httpd server"
+    echo "Open localhost:$HTTPD_PORT${HTTPD_WEBROOT:-/}"
+    START_CMD=(httpd -f -c "$HTTPD_CONF" -h "$HTTPD_HOME" -p "$(if [ -n "$HTTPD_IP" ] && [ "$HTTPD_IP" != "*" ]; then echo "$HTTPD_IP:"; fi)$HTTPD_PORT")
     STOP_CMD=(kill_pid)
   ;;
   *)

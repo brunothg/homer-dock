@@ -13,7 +13,7 @@ echo "Running '$SELF_SCRIPT' in '$PWD_SCRIPT'"
 # Load dependencies #
 #####################
 
-source "$DIR_SCRIPT/project-settings.sh"
+source "$DIR_SCRIPT/project.conf"
 
 #################
 # Prepare build #
