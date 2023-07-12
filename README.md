@@ -21,6 +21,7 @@ For what reason so ever you might want to run something else you can run `docker
 
 ## Configuration
 The httpd config file can be found at `/etc/httpd/httpd.conf`.
+Homer can be configured per web ui or by editing `/var/www/assets/config.yml` ([DOCS](https://github.com/bastienwirtz/homer/blob/main/docs/configuration.md)).
 Additionally, there are some environment variables that can be passed to `docker run -e X=Y <image>`
 or `docker run --env-file <image>`:
  * HTTPD_CONF="/etc/httpd/httpd.conf"
