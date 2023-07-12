@@ -30,7 +30,8 @@ RUN set -x  \
       bash \
       php82-cgi \
     && ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi" \
-    && chmod 555 /usr/local/bin/execute && dos2unix /usr/local/bin/execute
+    && chmod 555 /usr/local/bin/execute && dos2unix /usr/local/bin/execute \
+    && chmod 444 /etc/php82/conf.d/php.override.ini && dos2unix /etc/php82/conf.d/php.override.ini
 
 
 # Setup server
@@ -41,13 +42,15 @@ RUN set -x \
     && wget "https://github.com/bastienwirtz/homer/releases$(if [ "$HOMER_VERSION" == "latest" ]; then echo "/latest"; fi)/download$(if [ "$HOMER_VERSION" != "latest" ]; then echo "/$HOMER_VERSION"; fi)/homer.zip" -O "/tmp/homer.zip" \
     && unzip -d "${HTTPD_HOME}" "/tmp/homer.zip" \
     && mv "${HTTPD_HOME}/assets/config.yml.dist" "${HTTPD_HOME}/assets/config.yml" \
-    && find assets/ -type f -maxdepth 1 ! -name '*.json' ! -name '*.yml' \
+    && find "${HTTPD_HOME}/assets/" -mindepth 1 -maxdepth 1 ! -name 'manifest.json' ! -name 'icons' -exec rm -rf {} ';' \
+    && rm -f "${HTTPD_HOME}/logo.png" \
     && cp -a "/tmp/www/." "${HTTPD_HOME}" \
-    && find . -type f '(' -iname '*.sh' -o -iname '*.php' -o -iname '*.cgi' ')' -exec chmod 550 {} ';' -exec dos2unix {} ';'
-
+    && find . -type f '(' -iname '*.sh' -o -iname '*.php' -o -iname '*.cgi' ')' -exec chmod 550 {} ';' -exec dos2unix {} ';' \
+    && chmod 444 "${HTTPD_CONF}" && dos2unix "${HTTPD_CONF}"
 
 # Clean build artifacts
-RUN set -x && rm -Rf /tmp/* \
+RUN set -x && \
+    rm -rf /tmp/* \
     && apk del .build-deps
 
 

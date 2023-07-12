@@ -28,4 +28,4 @@ fi
 ######################
 # Build docker image #
 ######################
-docker build -t "$PROJECT_DTAG" --build-arg ALPINE_VERSION="${ALPINE_VERSION:?}" --build-arg HOMER_VERSION="${HOMER_VERSION:?}" .
+docker build -t "$PROJECT_DTAG" --build-arg ALPINE_VERSION="${ALPINE_VERSION:?}" --build-arg HOMER_VERSION="${HOMER_VERSION:?}" "$@" .

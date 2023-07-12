@@ -28,3 +28,6 @@ out/
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+# local temp files
+.local/
