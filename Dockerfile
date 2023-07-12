@@ -48,6 +48,7 @@ RUN set -x \
     && find . -type f '(' -iname '*.sh' -o -iname '*.php' -o -iname '*.cgi' ')' -exec chmod 550 {} ';' -exec dos2unix {} ';' \
     && chmod 444 "${HTTPD_CONF}" && dos2unix "${HTTPD_CONF}"
 
+
 # Clean build artifacts
 RUN set -x && \
     rm -rf /tmp/* \
