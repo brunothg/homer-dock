@@ -1,3 +1,9 @@
+[//]: # (Copyright 2023 brunothg)
+[//]: # (   Licensed under the Apache License, Version 2.0 &#40;the "License"&#41;;)
+[//]: # (   you may not use this file except in compliance with the License.)
+[//]: # (   You may obtain a copy of the License at)
+[//]: # (       http://www.apache.org/licenses/LICENSE-2.0)
+
 # Homer-Dock
 Docker container for Homer dashboard: [bastienwirtz/homer](https://github.com/bastienwirtz/homer)
 
