@@ -72,6 +72,17 @@ run() {
 
 
 #####################
+# Homer environment #
+#####################
+HOMER_WEB_CONFIG="${HOMER_WEB_CONFIG:-1}"
+
+if [ "$HOMER_WEB_CONFIG" -eq "0" ]
+then
+  rm -r "$HTTPD_HOME/config"
+fi
+
+
+#####################
 # HTTPD environment #
 #####################
 export HTTPD_IP="${HTTPD_IP:-*}"

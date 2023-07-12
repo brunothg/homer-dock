@@ -29,3 +29,6 @@ or `docker run --env-file <image>`:
  * HTTPD_IP=*
  * HTTPD_PORT=8080
  * HTTPD_WEBROOT="/"
+ * HTTPD_USERID=82
+ * HTTPD_GROUPID=$HTTPD_USERID
+ * HOMER_WEB_CONFIG=1
