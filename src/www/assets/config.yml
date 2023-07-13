@@ -15,7 +15,7 @@ footer: '<p>Created and <span title="packaged" class="has-text-danger"><i class=
 links:
   - name: ""
     icon: "fas fa-gear"
-    url: "config/dashboard.exec"
+    url: "config/dashboard/"
     target: "_self"
 
 message:

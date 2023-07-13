@@ -2,5 +2,5 @@
   "style": "is-dark",
   "title": "Demo",
   "icon": "fas fa-comment-dots",
-  "content": "This is a dummy dashboard demo. <br/> You need to edit the config.yml file (mount <code>$HTTPD_HOME/assets</code> or use web editor). <br/> Find more information on <a href='https://github.com/brunothg/homer-dock'>github.com/brunothg/homer-dock</a> and <a href='https://github.com/bastienwirtz/homer'>github.com/bastienwirtz/homer</a>. <br/><br/> <small><a href='config/message.exec'><i class='fas fa-gear'></i></a></small>"
+  "content": "This is a dummy dashboard demo. <br/> You need to edit the config.yml file (mount <code>$HTTPD_HOME/assets</code> or use web editor). <br/> Find more information on <a href='https://github.com/brunothg/homer-dock'>github.com/brunothg/homer-dock</a> and <a href='https://github.com/bastienwirtz/homer'>github.com/bastienwirtz/homer</a>. <br/><br/> <small><a href='config/message/'><i class='fas fa-gear'></i></a></small>"
 }

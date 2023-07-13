@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../../">
+
+    <link rel="stylesheet" href="resources/w3/w3.css">
+    <link rel="stylesheet" href="resources/w3/w3-theme.css">
+
+    <script type="application/javascript" src="resources/lang/lang.js"></script>
+    <script type="application/javascript" src="config/config.js"></script>
+
+    <title data-lang="message-config-title">Message Configuration</title>
+</head>
+<body>
+
+<header class="w3-container w3-theme">
+    <h1>
+        <a class="w3-btn w3-circle w3-large w3-theme-action" title="Home" href=".">&#8962;</a>
+        <span data-lang="message-config-title">Message Configuration</span>
+    </h1>
+</header>
+
+<main class="w3-container w3-theme-light">
+    <section class="w3-section w3-card">
+        <div class="w3-container w3-theme-l2">
+            <h3 data-lang="message-config-form-title">Message</h3>
+        </div>
+
+        <form id="message-config-form" name="message-config" class="w3-container">
+            <div class="w3-section">
+                <input id="message-config-form-input-style" name="style" class="w3-input" type="text"
+                       placeholder="is-dark">
+                <label for="message-config-form-input-style" data-lang="message-config-form-input-style">Style</label>
+            </div>
+
+            <div class="w3-section">
+                <input id="message-config-form-input-icon" name="icon" class="w3-input" type="text"
+                       placeholder="fas fa-comment-dots">
+                <label for="message-config-form-input-icon" data-lang="message-config-form-input-icon">Icon</label>
+            </div>
+
+            <div class="w3-section">
+                <input id="message-config-form-input-title" name="title" class="w3-input" type="text">
+                <label for="message-config-form-input-title" data-lang="message-config-form-input-title">Title</label>
+            </div>
+
+            <div class="w3-section">
+                <textarea id="message-config-form-input-content" name="content" class="w3-input" rows="5"></textarea>
+                <label for="message-config-form-input-content"
+                       data-lang="message-config-form-input-content">Content</label>
+            </div>
+
+            <div class="w3-section w3-cell-row">
+                <div class="w3-container w3-cell">
+                    <button type="submit" class="w3-btn w3-round w3-theme-action w3-col" data-lang="form-save">Save
+                    </button>
+                </div>
+                <div class="w3-container w3-cell">
+                    <button type="reset" class="w3-btn w3-round w3-theme-action w3-col" data-lang="form-reset">Reset
+                    </button>
+                </div>
+            </div>
+        </form>
+    </section>
+</main>
+
+<footer class="w3-container w3-theme">
+    <p></p>
+    <p id="info-text" class="w3-round w3-pale-yellow w3-padding-small w3-hide-empty"></p>
+</footer>
+
+<script type="application/javascript">
+    {
+        const infoText = document.getElementById('info-text');
+
+        const messageConfigForm = document.getElementById('message-config-form');
+        messageConfigForm.addEventListener('submit', async ev => {
+            ev.preventDefault();
+            let messageConfig = HomerConfig.formToObj(messageConfigForm);
+            console.log("Save message config: ", messageConfig);
+
+            const messageResp = await fetch('config/message/message.exec', {
+                method: 'POST',
+                body: JSON.stringify(messageConfig)
+            });
+            if (!messageResp.ok) {
+                console.warn("Could not save message config: ", messageResp.status, messageResp.statusText);
+                infoText.innerText = `${await HomerLang.getLangValue('message-config-saving-error-title') || 'Save message'}: ${messageResp.status} ${messageResp.statusText}`;
+                return;
+            }
+            messageConfig = await messageResp.json();
+            console.log("Update message config: ", messageConfig);
+            HomerConfig.objFillForm(messageConfig, messageConfigForm);
+        })
+        messageConfigForm.addEventListener('reset', ev => {
+            updateMessage().then();
+        })
+
+        async function updateMessage() {
+            const messageResp = await fetch('config/message/message.exec');
+            if (!messageResp.ok) {
+                console.warn("Could not load current message config: ", messageResp.status, messageResp.statusText)
+                infoText.innerText = `${await HomerLang.getLangValue('message-config-loading-error-title') || 'Load message'}: ${messageResp.status} ${messageResp.statusText}`;
+                return null;
+            }
+
+            const messageConfig = await messageResp.json();
+            console.log("Update message config: ", messageConfig);
+            HomerConfig.objFillForm(messageConfig, messageConfigForm);
+            return messageConfig;
+        }
+
+        updateMessage().then();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+#!/usr/bin/env php-cgi
+<?php
+# Copyright 2023 brunothg
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+?>
+
+{
+<?php
+header('Content-Type: application/json; charset=utf-8');
+
+switch ($_SERVER['REQUEST_METHOD']) {
+    case 'GET':
+        http_response_code(405);
+        echo '"//": "TODO GET",';
+        break;
+
+    case 'POST':
+        http_response_code(405);
+        echo '"//": "TODO POST",';
+        break;
+
+    default:
+        http_response_code(405);
+        break;
+}
+ # TODO load/store message
+?>
+
+
+"style": "is-dark",
+"title": "TODO",
+"icon": "fas fa-list",
+"content": "Load/Store message config not yet implemented"
+}

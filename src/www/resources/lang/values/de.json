@@ -1,0 +1,12 @@
+{
+  "form-save": "Speichern",
+  "form-reset": "Zurücksetzen",
+  "message-config-title": "Nachrichten Konfiguration",
+  "message-config-form-title": "Nachricht",
+  "message-config-form-input-title": "Titel",
+  "message-config-form-input-content": "Inhalt",
+  "message-config-form-input-icon": "Symbol",
+  "message-config-form-input-style": "Stil",
+  "message-config-loading-error-title": "Lade Nachricht",
+  "message-config-saving-error-title": "Speicher Nachricht"
+}
