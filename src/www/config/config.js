@@ -4,7 +4,7 @@ const HomerConfig = new (class {
         form.querySelectorAll('input[name], select[name], textarea[name]').forEach(input => {
             const name = input.name;
             if (obj.hasOwnProperty(name) || !preserve) {
-                input.value = obj[name];
+                input.value = obj[name] || null;
             }
         })
     }

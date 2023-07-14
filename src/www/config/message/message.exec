@@ -7,33 +7,37 @@
 #   You may obtain a copy of the License at
 #
 #       http://www.apache.org/licenses/LICENSE-2.0
-?>
 
+function getMessage($path, $raw = false)
 {
-<?php
-header('Content-Type: application/json; charset=utf-8');
+    $message = json_decode(file_get_contents($path) ?: '{}', true);
+    if (!$raw) {
+        $message['content'] .= '<br/><br/> <small><a href="config/message/"><i class="fas fa-gear"></i></a></small>';
+    }
+    return $message;
+}
 
+function setMessage($message, $path, $raw = false)
+{
+    file_put_contents($path, json_encode($message));
+    return getMessage($path, $raw);
+}
+
+header('Content-Type: application/json; charset=utf-8');
+$messageFilePath = '../../assets/message.json'; # TODO support multiple messages
+$raw = isset($_GET['raw']) && in_array($_GET['raw'], array('true', '1'));
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        http_response_code(405);
-        echo '"//": "TODO GET",';
+        echo json_encode(getMessage($messageFilePath, $raw));
         break;
 
     case 'POST':
-        http_response_code(405);
-        echo '"//": "TODO POST",';
+        $postMessage = json_decode(file_get_contents('php://input'), true);
+        echo json_encode(setMessage($postMessage, $messageFilePath, $raw));
         break;
 
     default:
         http_response_code(405);
         break;
 }
- # TODO load/store message
 ?>
-
-
-"style": "is-dark",
-"title": "TODO",
-"icon": "fas fa-list",
-"content": "Load/Store message config not yet implemented"
-}

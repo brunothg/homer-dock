@@ -19,7 +19,7 @@ links:
     target: "_self"
 
 message:
-  url: assets/message.json
+  url: config/message/message.exec
   refreshInterval: 60000
 
 services:

@@ -76,12 +76,19 @@
         const infoText = document.getElementById('info-text');
 
         const messageConfigForm = document.getElementById('message-config-form');
-        messageConfigForm.addEventListener('submit', async ev => {
+        messageConfigForm.addEventListener('submit', ev => {
             ev.preventDefault();
             let messageConfig = HomerConfig.formToObj(messageConfigForm);
             console.log("Save message config: ", messageConfig);
 
-            const messageResp = await fetch('config/message/message.exec', {
+            saveMessage(messageConfig).then();
+        })
+        messageConfigForm.addEventListener('reset', ev => {
+            updateMessage().then();
+        })
+
+        async function saveMessage(messageConfig) {
+            const messageResp = await fetch('config/message/message.exec?raw=1', {
                 method: 'POST',
                 body: JSON.stringify(messageConfig)
             });
@@ -93,13 +100,10 @@
             messageConfig = await messageResp.json();
             console.log("Update message config: ", messageConfig);
             HomerConfig.objFillForm(messageConfig, messageConfigForm);
-        })
-        messageConfigForm.addEventListener('reset', ev => {
-            updateMessage().then();
-        })
+        }
 
         async function updateMessage() {
-            const messageResp = await fetch('config/message/message.exec');
+            const messageResp = await fetch('config/message/message.exec?raw=1');
             if (!messageResp.ok) {
                 console.warn("Could not load current message config: ", messageResp.status, messageResp.statusText)
                 infoText.innerText = `${await HomerLang.getLangValue('message-config-loading-error-title') || 'Load message'}: ${messageResp.status} ${messageResp.statusText}`;
