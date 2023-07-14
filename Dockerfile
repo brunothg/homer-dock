@@ -49,8 +49,7 @@ COPY src/www/ "/tmp/www/"
 COPY LICENSE "/tmp/www/LICENSE"
 RUN set -x \
     && chmod 444 "${HTTPD_CONF}" && dos2unix "${HTTPD_CONF}" \
-    && mv "${HTTPD_HOME}/assets/config.yml.dist" "${HTTPD_HOME}/assets/config.yml" \
-    && find "${HTTPD_HOME}/assets/" -mindepth 1 -maxdepth 1 ! -name 'manifest.json' ! -name 'config.yml' ! -name 'icons' -exec rm -rf {} ';' \
+    && find "${HTTPD_HOME}/assets/" -mindepth 1 -maxdepth 1 ! -name 'manifest.json' ! -name 'icons' -exec rm -rf {} ';' \
     && rm -f "${HTTPD_HOME}/logo.png" \
     && cp -a "/tmp/www/." "${HTTPD_HOME}" \
     && find "${HTTPD_HOME}" -type f '(' -iname '*.sh' -o -iname '*.php' -o -iname '*.cgi' ')' -exec chmod 550 {} ';' -exec dos2unix {} ';'
