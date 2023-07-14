@@ -8,5 +8,6 @@
   "message-config-form-input-icon": "Symbol",
   "message-config-form-input-style": "Stil",
   "message-config-loading-error-title": "Lade Nachricht",
-  "message-config-saving-error-title": "Speicher Nachricht"
+  "message-config-saving-error-title": "Speicher Nachricht",
+  "message-config-saving-success-title": "Nachricht gespeichert"
 }

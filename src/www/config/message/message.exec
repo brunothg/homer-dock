@@ -24,8 +24,9 @@ function setMessage($message, $path, $raw = false)
 }
 
 header('Content-Type: application/json; charset=utf-8');
-$messageFilePath = '../../assets/message.json'; # TODO support multiple messages
 $raw = isset($_GET['raw']) && in_array($_GET['raw'], array('true', '1'));
+$messageId = (isset($_GET['id'])) ? $_GET['id'] : null;
+$messageFilePath = '../../assets/message' . ($messageId ? '-' . $messageId : '' ) . '.json';
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         echo json_encode(getMessage($messageFilePath, $raw));
