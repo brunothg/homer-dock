@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Copyright 2023 brunothg
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -6,8 +8,4 @@
 #
 #       http://www.apache.org/licenses/LICENSE-2.0
 
-PROJECT_NAME="homer-dock"
-PROJECT_VERSION="latest"
-
-HOMER_VERSION="latest"
-ALPINE_VERSION="latest"
+exec "$(realpath "$1")" "${@:2}"

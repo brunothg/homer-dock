@@ -1,0 +1,47 @@
+---
+# Homepage configuration
+# See https://fontawesome.com/v5/search for icons options
+# See https://github.com/bastienwirtz/homer/blob/main/docs/configuration.md for configuration options
+
+title: "Demo dashboard"
+subtitle: "Homer"
+logo: "assets/icons/pwa-512x512.png"
+icon: "fas fa-gears"
+
+header: true
+footer: '<p>Created and <span title="packaged" class="has-text-danger"><i class="fas fa-box-open"></i></span> with <a href="https://prismjs.com/">prismjs</a>, <a href="https://podman.io/">podman</a> & <a href="https://github.com/bastienwirtz/homer">homer</a> // Fork me on <a href="https://github.com/brunothg/homer-dock"><i class="fab fa-github-alt"></i></a></p>'
+
+
+links:
+  - name: ""
+    icon: "fas fa-gear"
+    url: "config/"
+    target: "_self"
+
+message:
+  url: assets/message/
+  refreshInterval: 60000
+
+services:
+  - name: "Websites"
+    icon: "fas fa-cloud"
+    items:
+      - name: "Podman"
+        subtitle: "Daemonless OCI containers"
+        icon: "fas fa-box"
+        tag: "web"
+        keywords: "docker podman container"
+        url: "https://podman.io/"
+        target: "_blank"
+      - name: "PrismJs"
+        subtitle: "Syntax highlighter"
+        icon: "fas fa-code"
+        tag: "web"
+        url: "https://prismjs.com/"
+        target: "_blank"
+      - name: "Homer"
+        subtitle: "Static dashboard for your server"
+        icon: "fas fa-circle-dot"
+        tag: "web"
+        url: "https://github.com/bastienwirtz/homer"
+        target: "_blank"

@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# Copyright 2023 brunothg
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+
 ##############
 # Run config #
 ##############
@@ -64,12 +72,24 @@ run() {
 
 
 #####################
+# Homer environment #
+#####################
+HOMER_WEB_CONFIG="${HOMER_WEB_CONFIG:-1}"
+
+if [ "$HOMER_WEB_CONFIG" -eq "0" ]
+then
+  rm -r "$HTTPD_HOME/config"
+fi
+
+
+#####################
 # HTTPD environment #
 #####################
-HTTPD_IP="${HTTPD_IP:-*}"
-HTTPD_PORT="${HTTPD_PORT:-8080}"
-HTTPD_CONF="${HTTPD_CONF:-/etc/httpd.conf}"
-HTTPD_WEBROOT="${HTTPD_WEBROOT:-/}"
+export HTTPD_IP="${HTTPD_IP:-*}"
+export HTTPD_PORT="${HTTPD_PORT:-8080}"
+export HTTPD_CONF="${HTTPD_CONF:-/etc/httpd.conf}"
+export HTTPD_WEBROOT="${HTTPD_WEBROOT:-/}"
+export CGI_REDIRECT_STATUS="${CGI_REDIRECT_STATUS:-1}"
 
 if [ -n "$HTTPD_WEBROOT" ] && [ "$HTTPD_WEBROOT" != "/" ]
 then
@@ -78,17 +98,23 @@ then
   cp -a "$HTTPD_HOME/." "$tmp_dir" && rm -rf "${HTTPD_HOME:?}"/*
   mkdir -p "${HTTPD_HOME}${HTTPD_WEBROOT}"
   cp -a "$tmp_dir/." "${HTTPD_HOME}${HTTPD_WEBROOT}" && rm -rf "$tmp_dir"
+
+  cgi_bin="${HTTPD_HOME}${HTTPD_WEBROOT}/cgi-bin"
+  if [ -d "$cgi_bin" ]
+  then
+    mv "$cgi_bin" "$HTTPD_HOME"
+  fi
 fi
 
 
 ####################
 # User/Group setup #
 ####################
-HTTPD_USER="www-data"
-HTTPD_USERID="${HTTPD_USERID:-82}"
-HTTPD_GROUP="$HTTPD_USER"
-HTTPD_GROUPID="${HTTPD_GROUPID:-$HTTPD_USERID}"
-HTTPD_HOME="${HTTPD_HOME:-/var/www}"
+export HTTPD_USER="www-data"
+export HTTPD_USERID="${HTTPD_USERID:-82}"
+export HTTPD_GROUP="$HTTPD_USER"
+export HTTPD_GROUPID="${HTTPD_GROUPID:-$HTTPD_USERID}"
+export HTTPD_HOME="${HTTPD_HOME:-/var/www}"
 RUN_USER="$HTTPD_USER"
 
 if [ -n "$(grep "$HTTPD_USER" "/etc/passwd" | cut -d ':' -f3)" ]
