@@ -16,5 +16,12 @@
   "message-config-saving-success-title": "Nachricht gespeichert",
   "message-config-deleting-error-title": "Lösche Nachricht",
   "message-config-deleting-success-title": "Nachricht gelöscht",
-  "dashboard-config-title": "Dashboard Konfiguration"
+  "dashboard-config-title": "Dashboard Konfiguration",
+  "dashboard-config-form-title": "Dashboard",
+  "dashboard-config-form-input-configuration": "Konfiguration",
+  "dashboard-config-loading-error-title": "Lade Dashboard",
+  "dashboard-config-saving-error-title": "Speicher Dashboard",
+  "dashboard-config-saving-success-title": "Dashboard gespeichert",
+  "dashboard-config-deleting-error-title": "Lösche Dashboard",
+  "dashboard-config-deleting-success-title": "Dashboard gelöscht"
 }

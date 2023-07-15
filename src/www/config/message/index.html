@@ -98,7 +98,7 @@ Copyright 2023 brunothg
         const messageConfigForm = document.getElementById('message-config-form');
         messageConfigForm.addEventListener('submit', ev => {
             ev.preventDefault();
-            let messageConfig = HomerConfig.formToObj(messageConfigForm);
+            const messageConfig = HomerConfig.formToObj(messageConfigForm);
             console.log("Save message config: ", messageConfig);
 
             saveMessage(messageConfig).then();
