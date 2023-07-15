@@ -9,7 +9,7 @@ logo: "assets/icons/pwa-512x512.png"
 icon: "fas fa-gears"
 
 header: true
-footer: '<p>Created and <span title="packaged" class="has-text-danger"><i class="fas fa-box-open"></i></span> with <a href="https://prismjs.com/">prismjs</a>, <a href="https://podman.io/">podman</a> & <a href="https://github.com/bastienwirtz/homer">homer</a> // Fork me on <a href="https://github.com/brunothg/homer-dock"><i class="fab fa-github-alt"></i></a></p>' # set false if you want to hide it.
+footer: '<p>Created and <span title="packaged" class="has-text-danger"><i class="fas fa-box-open"></i></span> with <a href="https://prismjs.com/">prismjs</a>, <a href="https://podman.io/">podman</a> & <a href="https://github.com/bastienwirtz/homer">homer</a> // Fork me on <a href="https://github.com/brunothg/homer-dock"><i class="fab fa-github-alt"></i></a></p>'
 
 
 links:
