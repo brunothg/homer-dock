@@ -17,16 +17,21 @@
 
 <header class="w3-container w3-theme">
     <h1>
-        <a class="w3-btn w3-circle w3-large w3-theme-action" title="Home" href=".">&#8962;</a>
+        <a class="w3-btn w3-round w3-large w3-border w3-border-theme-action" title="Back" href="config/">⬅️</a>
         <span data-lang="message-config-title">Message configuration</span>
     </h1>
 </header>
 
 <main class="w3-container w3-theme-light">
     <section class="w3-section w3-card">
-        <div class="w3-container w3-theme-l2">
-            <h3 data-lang="message-config-form-title">Message</h3>
-        </div>
+        <header class="w3-container w3-row w3-theme-l2">
+            <div class="w3-container w3-show-inline-block">
+                <h3 data-lang="message-config-form-title">Message</h3>
+            </div>
+            <div class="w3-container w3-show-inline-block w3-padding w3-right">
+                <button id="message-config-btn-delete" type="button" class="w3-btn w3-round w3-theme-action w3-hover-red" title="Delete">🗑️</button>
+            </div>
+        </header>
 
         <form id="message-config-form" name="message-config" class="w3-container">
             <div class="w3-section">
@@ -85,15 +90,33 @@
             updateMessage().then();
         })
 
-        const infoText = document.getElementById('info-text');
+        const deleteBtn = document.getElementById('message-config-btn-delete');
+        deleteBtn.addEventListener('click', ev => {
+           deleteMessage().then();
+        });
 
+        const infoText = document.getElementById('info-text');
         function setInfo(info) {
             const now = new Date();
-            infoText.innerText = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} | ${info}`;
+            infoText.innerText = `${(now.getHours()+'').padStart(2, '0')}:${(now.getMinutes()+'').padStart(2, '0')}:${(now.getSeconds()+'').padStart(2, '0')} | ${info}`;
+        }
+
+        async function deleteMessage() {
+            const messageResp = await fetch('config/message/message.exec', {
+                method: 'DELETE'
+            });
+            if (!messageResp.ok) {
+                setInfo(`${await HomerLang.getLangValue('message-config-deleting-error-title') || 'Delete message'}: ${messageResp.status} ${messageResp.statusText}`);
+                console.warn("Could not delete message config: ", messageResp.status, messageResp.statusText);
+                return;
+            }
+            setInfo(`${await HomerLang.getLangValue('message-config-deleting-success-title') || 'Message deleted'}`);
+            console.log("Deleted message config");
+            messageConfigForm.reset();
         }
 
         async function saveMessage(messageConfig) {
-            const messageResp = await fetch('config/message/message.exec?raw=1', {
+            const messageResp = await fetch('config/message/message.exec', {
                 method: 'POST',
                 body: JSON.stringify(messageConfig)
             });
@@ -109,7 +132,7 @@
         }
 
         async function updateMessage() {
-            const messageResp = await fetch('config/message/message.exec?raw=1');
+            const messageResp = await fetch('config/message/message.exec');
             if (!messageResp.ok) {
                 console.warn("Could not load current message config: ", messageResp.status, messageResp.statusText)
                 setInfo(`${await HomerLang.getLangValue('message-config-loading-error-title') || 'Load message'}: ${messageResp.status} ${messageResp.statusText}`);

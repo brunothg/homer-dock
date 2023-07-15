@@ -8,33 +8,36 @@
 #
 #       http://www.apache.org/licenses/LICENSE-2.0
 
-function getMessage($path, $raw = false)
+function getMessage($path)
 {
-    $message = json_decode(file_get_contents($path) ?: '{}', true);
-    if (!$raw) {
-        $message['content'] .= '<br/><br/> <small><a href="config/message/"><i class="fas fa-gear"></i></a></small>';
-    }
-    return $message;
+    return json_decode(file_get_contents($path) ?: '{}', true);
 }
 
-function setMessage($message, $path, $raw = false)
+function deleteMessage($path) {
+    unlink($path);
+}
+
+function setMessage($message, $path)
 {
     file_put_contents($path, json_encode($message));
-    return getMessage($path, $raw);
+    return getMessage($path);
 }
 
 header('Content-Type: application/json; charset=utf-8');
-$raw = isset($_GET['raw']) && in_array($_GET['raw'], array('true', '1'));
 $messageId = (isset($_GET['id'])) ? $_GET['id'] : null;
 $messageFilePath = '../../assets/message' . ($messageId ? '-' . $messageId : '' ) . '.json';
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        echo json_encode(getMessage($messageFilePath, $raw));
+        echo json_encode(getMessage($messageFilePath));
         break;
 
     case 'POST':
         $postMessage = json_decode(file_get_contents('php://input'), true);
-        echo json_encode(setMessage($postMessage, $messageFilePath, $raw));
+        echo json_encode(setMessage($postMessage, $messageFilePath));
+        break;
+
+    case 'DELETE':
+        deleteMessage($messageFilePath);
         break;
 
     default:

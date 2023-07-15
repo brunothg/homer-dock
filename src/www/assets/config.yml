@@ -15,11 +15,12 @@ footer: '<p>Created and <span title="packaged" class="has-text-danger"><i class=
 links:
   - name: ""
     icon: "fas fa-gear"
-    url: "config/dashboard/"
+    url: "config/"
     target: "_self"
 
+# FIXME should not cache messages
 message:
-  url: config/message/message.exec
+  url: assets/message.json
   refreshInterval: 60000
 
 services:

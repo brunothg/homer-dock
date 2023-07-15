@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../">
+
+    <link rel="stylesheet" href="resources/w3/w3.css">
+    <link rel="stylesheet" href="resources/w3/w3-theme.css">
+
+    <script type="application/javascript" src="resources/lang/lang.js"></script>
+    <script type="application/javascript" src="config/config.js"></script>
+
+    <title data-lang="homer-config-title">Homer configuration</title>
+</head>
+<body>
+
+<header class="w3-container w3-theme">
+    <h1>
+        <a class="w3-btn w3-round w3-large w3-border w3-border-theme-action" title="Back" href=".">⬅️</a>
+        <span data-lang="homer-config-title">Homer configuration</span>
+    </h1>
+</header>
+
+<main class="w3-container w3-theme-light">
+    <section class="w3-section w3-row">
+        <div class="w3-container w3-quarter">
+            <article class="w3-card">
+                <div class="w3-center w3-theme-l2">
+                    <svg viewBox="0 0 100 100">
+                        <text x="50" y="50" font-size="75" text-anchor="middle" alignment-baseline="central">
+                            🪟
+                        </text>
+                    </svg>
+                </div>
+                <footer class="w3-theme-action">
+                    <a href="config/dashboard/" class="w3-btn w3-block w3-round" data-lang="homer-config-btn-dashboard">Dashboard</a>
+                </footer>
+            </article>
+        </div>
+
+        <div class="w3-container w3-quarter">
+            <article class="w3-card">
+                <div class="w3-center w3-theme-l2">
+                    <svg viewBox="0 0 100 100">
+                        <text x="50" y="50" font-size="75" text-anchor="middle" alignment-baseline="middle">
+                            ✉️
+                        </text>
+                    </svg>
+                </div>
+                <footer class="w3-theme-action">
+                    <a href="config/message/" class="w3-btn w3-block w3-round w3-theme-action" data-lang="homer-config-btn-message">Message</a>
+                </footer>
+            </article>
+        </div>
+    </section>
+</main>
+
+<footer class="w3-container w3-theme">
+    <p></p>
+    <p id="info-text" class="w3-round w3-pale-yellow w3-padding-small w3-hide-empty"></p>
+</footer>
+</body>
+</html>
