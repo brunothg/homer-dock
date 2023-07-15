@@ -47,7 +47,7 @@ const PrismEditor = new (class {
         const update = () => {
             let text = '' + editor.value;
             if (text.endsWith("\n")) {
-                text += "";
+                text += " ";
             }
             highlighterContent.innerHTML = this.#escapeHTML(text);
             Prism.highlightElement(highlighterContent);
