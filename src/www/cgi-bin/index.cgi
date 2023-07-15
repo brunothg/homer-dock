@@ -40,7 +40,7 @@ send_response() {
 # Test Index redirect
 if [ "$REQUEST_PATH" != "$SELF_SCRIPT" ]
 then
-  for file in "index.html" "index.php"
+  for file in "index.html" "index.exec"
   do
     if [ -f "$REQUEST_PATH/$file" ]
     then

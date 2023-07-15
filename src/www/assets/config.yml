@@ -18,9 +18,8 @@ links:
     url: "config/"
     target: "_self"
 
-# FIXME should not cache messages
 message:
-  url: assets/message.json
+  url: assets/message/
   refreshInterval: 60000
 
 services:
