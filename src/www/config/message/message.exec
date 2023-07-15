@@ -8,16 +8,16 @@
 #
 #       http://www.apache.org/licenses/LICENSE-2.0
 
-function getMessage($path)
+function getMessage(string $path): array
 {
     return json_decode(file_get_contents($path) ?: '{}', true);
 }
 
-function deleteMessage($path) {
+function deleteMessage(string $path): void {
     unlink($path);
 }
 
-function setMessage($message, $path)
+function setMessage(array $message, string $path): array
 {
     file_put_contents($path, json_encode($message));
     return getMessage($path);

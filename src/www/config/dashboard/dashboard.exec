@@ -8,11 +8,49 @@
 #
 #       http://www.apache.org/licenses/LICENSE-2.0
 
+function getDashboard(string $path): string
+{
+    return file_get_contents($path) ?: '';
+}
+
+function deleteDashboard(string $path): void
+{
+    unlink($path);
+}
+
+function setDashboard(string $dashboard, string $path): string
+{
+    file_put_contents($path, json_encode($dashboard));
+    return getDashboard($path);
+}
+
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-header('Content-Type: application/json; charset=utf-8');
+header('Content-Type: application/yaml; charset=utf-8');
 
-# TODO dashboard api
-echo "{}"
+$dashboardId = (isset($_GET['id'])) ? $_GET['id'] : 'config';
+$dashboardFilePath = '../../assets/' . $dashboardId . '.yml';
+switch ($_SERVER['REQUEST_METHOD']) {
+    case 'GET':
+        echo getDashboard($dashboardFilePath);
+        break;
+
+    case 'POST':
+        $postMessage = file_get_contents('php://input');
+        echo setDashboard($postMessage, $dashboardFilePath);
+        break;
+
+    case 'DELETE':
+        if ($dashboardId == 'config') {
+            http_response_code(405);
+        } else {
+            deleteDashboard($dashboardFilePath);
+        }
+        break;
+
+    default:
+        http_response_code(405);
+        break;
+}
 ?>
