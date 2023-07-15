@@ -94,11 +94,22 @@ Copyright 2023 brunothg
             deleteDashboard().then();
         });
 
+        function resizeEditor() {
+            dashboardConfigEditor.style.display = 'none';
+            dashboardConfigEditor.style.height = `max(15rem, ${window.innerHeight - document.body.offsetHeight}px)`;
+            dashboardConfigEditor.style.display = '';
+        }
+
+        window.addEventListener('resize', () => {
+            resizeEditor();
+        });
+
         const infoText = document.getElementById('info-text');
 
         function setInfo(info) {
             const now = new Date();
             infoText.innerText = `${(now.getHours() + '').padStart(2, '0')}:${(now.getMinutes() + '').padStart(2, '0')}:${(now.getSeconds() + '').padStart(2, '0')} | ${info}`;
+            resizeEditor();
         }
 
         async function deleteDashboard() {
@@ -149,16 +160,6 @@ Copyright 2023 brunothg
             dashboardConfigEditor.dispatchEvent(new Event('change'));
             return dashboardConfig;
         }
-
-        function resizeEditor() {
-            dashboardConfigEditor.style.display = 'none';
-            dashboardConfigEditor.style.height = `max(15rem, ${window.innerHeight - document.body.offsetHeight}px)`;
-            dashboardConfigEditor.style.display = '';
-        }
-
-        window.addEventListener('resize', () => {
-            resizeEditor();
-        });
 
         resizeEditor();
         updateDashboard().then();
