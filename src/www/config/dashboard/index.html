@@ -87,7 +87,7 @@ Copyright 2023 brunothg
         })
         dashboardConfigForm.addEventListener('reset', ev => {
             updateDashboard().then();
-        })
+        });
 
         const deleteBtn = document.getElementById('dashboard-config-btn-delete');
         deleteBtn.addEventListener('click', ev => {
@@ -150,6 +150,17 @@ Copyright 2023 brunothg
             return dashboardConfig;
         }
 
+        function resizeEditor() {
+            dashboardConfigEditor.style.display = 'none';
+            dashboardConfigEditor.style.height = `max(15rem, ${window.innerHeight - document.body.offsetHeight}px)`;
+            dashboardConfigEditor.style.display = '';
+        }
+
+        window.addEventListener('resize', () => {
+            resizeEditor();
+        });
+
+        resizeEditor();
         updateDashboard().then();
         PrismEditor.highlightAll();
     }

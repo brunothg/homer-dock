@@ -68,7 +68,7 @@ Copyright 2023 brunothg
             <div class="w3-section">
                 <div class="prism-editor" data-prism-lang="html">
                     <textarea id="message-config-form-input-content" name="content" class="w3-input"
-                              rows="5"></textarea>
+                              rows="10"></textarea>
                 </div>
                 <label for="message-config-form-input-content"
                        data-lang="message-config-form-input-content">Content</label>
@@ -105,7 +105,7 @@ Copyright 2023 brunothg
         })
         messageConfigForm.addEventListener('reset', ev => {
             updateMessage().then();
-        })
+        });
 
         const deleteBtn = document.getElementById('message-config-btn-delete');
         deleteBtn.addEventListener('click', ev => {
