@@ -8,8 +8,11 @@
 #
 #       http://www.apache.org/licenses/LICENSE-2.0
 
-
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 header('Content-Type: application/json; charset=utf-8');
+
 $messageId = (isset($_GET['id'])) ? $_GET['id'] : null;
 $messageFilePath = 'message' . ($messageId ? '-' . $messageId : '' ) . '.json';
 echo json_encode(json_decode(file_get_contents($messageFilePath) ?: '{}', true));

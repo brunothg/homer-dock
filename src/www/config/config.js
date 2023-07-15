@@ -5,6 +5,7 @@ const HomerConfig = new (class {
             const name = input.name;
             if (obj.hasOwnProperty(name) || !preserve) {
                 input.value = obj[name] || null;
+                input.dispatchEvent(new Event('change'));
             }
         })
     }

@@ -1,0 +1,62 @@
+/*
+Copyright 2023 brunothg
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+*/
+.prism-editor {
+    display: block;
+    position: relative;
+}
+
+.prism-editor textarea {
+    z-index: 1;
+
+    position: relative;
+    top: 0;
+    left: 0;
+
+    color: transparent;
+    background: transparent;
+    caret-color: white;
+}
+
+.prism-editor textarea::selection {
+    color: transparent;
+    background: rgba(3, 94, 252, 0.4);
+}
+
+.prism-editor pre {
+    z-index: 0;
+
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.prism-editor textarea,
+.prism-editor pre {
+    border: 0;
+    padding: 8px;
+    margin: 0;
+
+    overflow: auto;
+}
+
+.prism-editor textarea,
+.prism-editor pre,
+.prism-editor pre * {
+    font-size: 1rem;
+    font-family: monospace;
+    line-height: 1.5rem;
+
+    word-break: break-all;
+    white-space: pre-line;
+
+    tab-size: 2;
+}
