@@ -20,7 +20,7 @@ function deleteDashboard(string $path): void
 
 function setDashboard(string $dashboard, string $path): string
 {
-    file_put_contents($path, json_encode($dashboard));
+    file_put_contents($path, $dashboard);
     return getDashboard($path);
 }
 
