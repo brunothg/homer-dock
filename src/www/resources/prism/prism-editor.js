@@ -69,11 +69,12 @@ const PrismEditor = new (class {
             let text = '' + editor.value;
             if (ev.key === 'Tab') {
                 ev.preventDefault();
+                const tabReplacement = ' '.repeat(2);
 
-                let before_tab = text.slice(0, editor.selectionStart);
-                let after_tab = text.slice(editor.selectionEnd, editor.value.length);
-                let cursor_pos = editor.selectionEnd + 1;
-                text = before_tab + "\t" + after_tab;
+                const before_tab = text.slice(0, editor.selectionStart);
+                const after_tab = text.slice(editor.selectionEnd, editor.value.length);
+                const cursor_pos = editor.selectionEnd + tabReplacement.length;
+                text = before_tab + tabReplacement + after_tab;
 
                 editor.value = text;
                 editor.selectionStart = cursor_pos;
