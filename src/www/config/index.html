@@ -171,6 +171,7 @@ Copyright 2023 brunothg
                 const dashboardLink = newDashboardTemplate.querySelector('#template-homer-config-dashboard-card-link');
 
                 newDashboardTemplate.id = "";
+                dashboardLink.id = ""
                 dashboardLink.href = `config/dashboard/#${dashboardListing.id}`;
                 dashboardLink.innerText = dashboardListing.id.replaceAll('-', ' ');
 
@@ -200,6 +201,7 @@ Copyright 2023 brunothg
                 const messageLink = newMessageTemplate.querySelector('#template-homer-config-message-card-link');
 
                 newMessageTemplate.id = "";
+                messageLink.id = "";
                 messageLink.href = `config/message/#${messageListing.id}`;
                 messageLink.innerText = messageListing.id.replaceAll('-', ' ');
 
