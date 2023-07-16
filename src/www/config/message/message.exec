@@ -49,7 +49,7 @@ header("Pragma: no-cache");
 header('Content-Type: application/json; charset=utf-8');
 
 $fetchMode = (isset($_GET['mode'])) ? $_GET['mode'] : 'entity';
-$messageId = str_replace(DIRECTORY_SEPARATOR, "-", (isset($_GET['id'])) ? $_GET['id'] : 'message');
+$messageId = str_replace(DIRECTORY_SEPARATOR, "-", (isset($_GET['id']) && $_GET['id']) ? $_GET['id'] : 'message');
 $messagesBasePath = join(DIRECTORY_SEPARATOR, array('..', '..', 'assets', 'message'));
 $messageFilePath = join(DIRECTORY_SEPARATOR, array($messagesBasePath, $messageId . '.json'));
 switch ($_SERVER['REQUEST_METHOD']) {

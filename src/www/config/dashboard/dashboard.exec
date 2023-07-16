@@ -50,7 +50,7 @@ header("Pragma: no-cache");
 header('Content-Type: application/yaml; charset=utf-8');
 
 $fetchMode = (isset($_GET['mode'])) ? $_GET['mode'] : 'entity';
-$dashboardId = str_replace(DIRECTORY_SEPARATOR, "-", (isset($_GET['id'])) ? $_GET['id'] : 'config');
+$dashboardId = str_replace(DIRECTORY_SEPARATOR, "-", (isset($_GET['id']) && $_GET['id']) ? $_GET['id'] : 'config');
 $dashboardsBasePath = join(DIRECTORY_SEPARATOR, array('..', '..', 'assets'));
 $dashboardFilePath = join(DIRECTORY_SEPARATOR, array($dashboardsBasePath, $dashboardId . '.yml'));
 switch ($_SERVER['REQUEST_METHOD']) {

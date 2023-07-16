@@ -76,6 +76,9 @@ Copyright 2023 brunothg
 
 <script type="application/javascript">
     {
+        const dashboardId = (window.location.hash) ? window.location.hash.substring(1) : null;
+        const dashboardUrl = `config/dashboard/dashboard.exec?mode=entity${(dashboardId) ? '&id=' + dashboardId : ''}`;
+
         const dashboardConfigForm = document.getElementById('dashboard-config-form');
         const dashboardConfigEditor = document.getElementById('dashboard-config-form-input-content');
         dashboardConfigForm.addEventListener('submit', ev => {
@@ -113,7 +116,7 @@ Copyright 2023 brunothg
         }
 
         async function deleteDashboard() {
-            const dashboardResp = await fetch('config/dashboard/dashboard.exec', {
+            const dashboardResp = await fetch(dashboardUrl, {
                 method: 'DELETE'
             });
             if (!dashboardResp.ok) {
@@ -127,7 +130,7 @@ Copyright 2023 brunothg
         }
 
         async function saveDashboard(dashboardConfig) {
-            const dashboardResp = await fetch('config/dashboard/dashboard.exec', {
+            const dashboardResp = await fetch(dashboardUrl, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/yaml"
@@ -147,7 +150,7 @@ Copyright 2023 brunothg
         }
 
         async function updateDashboard() {
-            const dashboardResp = await fetch('config/dashboard/dashboard.exec');
+            const dashboardResp = await fetch(dashboardUrl);
             if (!dashboardResp.ok) {
                 console.warn("Could not load current dashboard config: ", dashboardResp.status, dashboardResp.statusText)
                 setInfo(`${await HomerLang.getLangValue('dashboard-config-loading-error-title') || 'Load dashboard'}: ${dashboardResp.status} ${dashboardResp.statusText}`);
