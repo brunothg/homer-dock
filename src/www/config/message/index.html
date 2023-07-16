@@ -38,7 +38,7 @@ Copyright 2023 brunothg
     <section class="w3-section w3-card">
         <header class="w3-container w3-row w3-theme-l2">
             <div class="w3-container w3-show-inline-block">
-                <h3 data-lang="message-config-form-title">Message</h3>
+                <h3><span data-lang="message-config-form-title">Message</span> <small id="message-config-form-subtitle"></small></h3>
             </div>
             <div class="w3-container w3-show-inline-block w3-padding w3-right">
                 <button id="message-config-btn-delete" type="button"
@@ -97,6 +97,9 @@ Copyright 2023 brunothg
     {
         const messageId = (window.location.hash) ? window.location.hash.substring(1) : null;
         const messageUrl = `config/message/message.exec?mode=entity${(messageId) ? '&id=' + messageId : ''}`;
+
+        const messageConfigFormSubtitle = document.getElementById('message-config-form-subtitle');
+        messageConfigFormSubtitle.innerText = messageId || '';
 
         const messageConfigForm = document.getElementById('message-config-form');
         messageConfigForm.addEventListener('submit', ev => {
