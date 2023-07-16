@@ -46,6 +46,18 @@ textarea {
     resize: vertical;
 }
 
-*.w3-hide-empty:empty {
+.w3-hide-empty:empty {
     display: none;
+}
+
+.w3-margin-0 {
+    margin: 0;
+}
+
+.w3-padding-0 {
+    padding: 0;
+}
+
+.w3-capitalize {
+    text-transform: capitalize;
 }

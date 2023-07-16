@@ -8,6 +8,26 @@
 #
 #       http://www.apache.org/licenses/LICENSE-2.0
 
+function listDashboards(string $path): array
+{
+
+    return array_values(
+        array_map(
+            function ($elem) {
+                $dashboardId = substr($elem, 0, strlen($elem) - 4);
+                return array('id' => $dashboardId);
+            },
+            array_filter(
+                scandir($path) ?: array(),
+                function ($elem) use ($path) {
+                    $filename = join(DIRECTORY_SEPARATOR, array($path, $elem));
+                    return str_ends_with($filename, '.yml') && is_file($filename);
+                }
+            )
+        )
+    );
+}
+
 function getDashboard(string $path): string
 {
     return file_get_contents($path) ?: '';
@@ -29,13 +49,22 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 header('Content-Type: application/yaml; charset=utf-8');
 
-$dashboardId = (isset($_GET['id'])) ? $_GET['id'] : 'config';
-$dashboardFilePath = '../../assets/' . $dashboardId . '.yml';
+$fetchMode = (isset($_GET['mode'])) ? $_GET['mode'] : 'entity';
+$dashboardId = str_replace(DIRECTORY_SEPARATOR, "-", (isset($_GET['id'])) ? $_GET['id'] : 'config');
+$dashboardsBasePath = join(DIRECTORY_SEPARATOR, array('..', '..', 'assets'));
+$dashboardFilePath = join(DIRECTORY_SEPARATOR, array($dashboardsBasePath, $dashboardId . '.yml'));
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        echo getDashboard($dashboardFilePath);
+        if ($fetchMode == 'entity') {
+            echo getDashboard($dashboardFilePath);
+        } elseif ($fetchMode == 'list') {
+            echo json_encode(listDashboards($dashboardsBasePath));
+        } else {
+            http_response_code(400);
+        }
         break;
 
+    case 'PUT':
     case 'POST':
         $postMessage = file_get_contents('php://input');
         echo setDashboard($postMessage, $dashboardFilePath);

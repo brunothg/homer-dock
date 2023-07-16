@@ -31,42 +31,191 @@ Copyright 2023 brunothg
 </header>
 
 <main class="w3-container w3-theme-light">
-    <section class="w3-section w3-row">
-        <div class="w3-container w3-quarter">
-            <article class="w3-card">
-                <div class="w3-center w3-theme-l2">
-                    <svg viewBox="0 0 100 100">
-                        <text x="50" y="50" font-size="75" text-anchor="middle" alignment-baseline="central">
-                            🪟
-                        </text>
-                    </svg>
+    <section class="w3-section">
+        <div>
+            <div class="w3-row">
+                <div class="w3-show-inline-block">
+                    <h3 data-lang="homer-config-title-dashboards">Dashboards</h3>
                 </div>
-                <footer class="w3-theme-action">
-                    <a href="config/dashboard/" class="w3-btn w3-block w3-round" data-lang="homer-config-btn-dashboard">Dashboard</a>
-                </footer>
-            </article>
+                <div class="w3-show-inline-block w3-padding w3-right">
+                    <button id="homer-config-dashboards-btn-new" type="button"
+                            class="w3-btn w3-round w3-border w3-border-theme-action w3-hover-green" title="New">➕
+                    </button>
+                </div>
+            </div>
+            <hr class="w3-border-theme w3-margin-0">
         </div>
 
-        <div class="w3-container w3-quarter">
-            <article class="w3-card">
-                <div class="w3-center w3-theme-l2">
-                    <svg viewBox="0 0 100 100">
-                        <text x="50" y="50" font-size="75" text-anchor="middle" alignment-baseline="middle">
-                            ✉️
-                        </text>
-                    </svg>
+        <article id="homer-config-dashboards-container" class="w3-section w3-row">
+            <span data-lang="loading">Loading ...</span>
+        </article>
+    </section>
+
+    <section class="w3-section">
+        <div>
+            <div class="w3-row">
+                <div class="w3-show-inline-block">
+                    <h3 data-lang="homer-config-title-messages">Messages</h3>
                 </div>
-                <footer class="w3-theme-action">
-                    <a href="config/message/" class="w3-btn w3-block w3-round w3-theme-action" data-lang="homer-config-btn-message">Message</a>
-                </footer>
-            </article>
+                <div class="w3-show-inline-block w3-padding w3-right">
+                    <button id="homer-config-messages-btn-new" type="button"
+                            class="w3-btn w3-round w3-border w3-border-theme-action w3-hover-green" title="New">➕
+                    </button>
+                </div>
+            </div>
+            <hr class="w3-border-theme w3-margin-0">
         </div>
+
+        <article id="homer-config-messages-container" class="w3-section w3-row">
+            <span data-lang="loading">Loading ...</span>
+        </article>
     </section>
 </main>
+
+<div class="w3-hide">
+
+    <div id="template-homer-config-dashboard-card" class="w3-container w3-quarter">
+        <article class="w3-card">
+            <div class="w3-center w3-theme-l2">
+                <svg viewBox="0 0 100 100">
+                    <text x="50" y="50" font-size="75" text-anchor="middle" alignment-baseline="central">
+                        🪟
+                    </text>
+                </svg>
+            </div>
+            <footer class="w3-theme-action">
+                <a id="template-homer-config-dashboard-card-link" href=""
+                   class="w3-btn w3-block w3-round w3-capitalize"></a>
+            </footer>
+        </article>
+    </div>
+
+    <div id="template-homer-config-message-card" class="w3-container w3-quarter">
+        <article class="w3-card">
+            <div class="w3-center w3-theme-l2">
+                <svg viewBox="0 0 100 100">
+                    <text x="50" y="50" font-size="75" text-anchor="middle" alignment-baseline="middle">
+                        ✉️
+                    </text>
+                </svg>
+            </div>
+            <footer class="w3-theme-action">
+                <a id="template-homer-config-message-card-link" href=""
+                   class="w3-btn w3-block w3-round w3-theme-action w3-capitalize"></a>
+            </footer>
+        </article>
+    </div>
+
+</div>
 
 <footer class="w3-container w3-theme">
     <p></p>
     <p id="info-text" class="w3-round w3-pale-yellow w3-padding-small w3-hide-empty"></p>
 </footer>
+<script type="application/javascript">
+    {
+        const dashboardsContainer = document.getElementById('homer-config-dashboards-container');
+        const newDashboardBtn = document.getElementById('homer-config-dashboards-btn-new');
+        const messagesContainer = document.getElementById('homer-config-messages-container');
+        const newMessageBtn = document.getElementById('homer-config-messages-btn-new');
+
+        newDashboardBtn.addEventListener('click', async () => {
+            const id = prompt(await HomerLang.getLangValue('homer-config-dashboards-new-id-prompt') || 'Create new dashboard. \nPlease enter id:');
+            createNewDashboardConfig(id);
+        });
+        newMessageBtn.addEventListener('click', async () => {
+            const id = prompt(await HomerLang.getLangValue('homer-config-messages-new-id-prompt') || 'Create new message. \nPlease enter id:');
+            createNewMessageConfig(id);
+        });
+
+        const infoText = document.getElementById('info-text');
+
+        function setInfo(info) {
+            const now = new Date();
+            infoText.innerText = `${(now.getHours() + '').padStart(2, '0')}:${(now.getMinutes() + '').padStart(2, '0')}:${(now.getSeconds() + '').padStart(2, '0')} | ${info}`;
+        }
+
+        function goto(url) {
+            window.location.assign(url);
+        }
+
+        function createNewDashboardConfig(id) {
+            id = id.toLowerCase().replaceAll(new RegExp('[^a-zA-Z0-9]', 'g'), '-');
+            goto(`config/dashboard/#${id}`);
+        }
+
+        function createNewMessageConfig(id) {
+            id = id.toLowerCase().replaceAll(new RegExp('[^a-zA-Z0-9]', 'g'), '-');
+            goto(`config/message/#${id}`);
+        }
+
+        async function updateDashboards() {
+            dashboardsContainer.innerHTML = "";
+
+            const dashboardsResp = await fetch('config/dashboard/dashboard.exec?mode=list');
+            if (!dashboardsResp.ok) {
+                console.warn("Could not load dashboard config list: ", dashboardsResp.status, dashboardsResp.statusText)
+                setInfo(`${await HomerLang.getLangValue('homer-config-dashboards-loading-error-title') || 'Load dashboards'}: ${dashboardsResp.status} ${dashboardsResp.statusText}`);
+                return null;
+            }
+
+            const dashboardListings = await dashboardsResp.json();
+            dashboardListings.sort((a, b) => (a.id === b.id) ? 0 : ((a.id > b.id) ? 1 : -1));
+            console.log("Update dashboard config list: ", dashboardListings);
+
+            const dashboardTemplate = document.getElementById('template-homer-config-dashboard-card');
+            for (const dashboardListing of dashboardListings) {
+                const newDashboardTemplate = dashboardTemplate.cloneNode(true);
+                const dashboardLink = newDashboardTemplate.querySelector('#template-homer-config-dashboard-card-link');
+
+                newDashboardTemplate.id = "";
+                dashboardLink.href = `config/dashboard/#${dashboardListing.id}`;
+                dashboardLink.innerText = dashboardListing.id.replaceAll('-', ' ');
+
+                dashboardsContainer.appendChild(newDashboardTemplate);
+            }
+
+            return dashboardListings;
+        }
+
+        async function updateMessages() {
+            messagesContainer.innerHTML = "";
+
+            const messagesResp = await fetch('config/message/message.exec?mode=list');
+            if (!messagesResp.ok) {
+                console.warn("Could not load message config list: ", messagesResp.status, messagesResp.statusText)
+                setInfo(`${await HomerLang.getLangValue('homer-config-messages-loading-error-title') || 'Load messages'}: ${messagesResp.status} ${messagesResp.statusText}`);
+                return null;
+            }
+
+            const messageListings = await messagesResp.json();
+            messageListings.sort((a, b) => (a.id === b.id) ? 0 : ((a.id > b.id) ? 1 : -1));
+            console.log("Update message config list: ", messageListings);
+
+            const messageTemplate = document.getElementById('template-homer-config-message-card');
+            for (const messageListing of messageListings) {
+                const newMessageTemplate = messageTemplate.cloneNode(true);
+                const messageLink = newMessageTemplate.querySelector('#template-homer-config-message-card-link');
+
+                newMessageTemplate.id = "";
+                messageLink.href = `config/message/#${messageListing.id}`;
+                messageLink.innerText = messageListing.id.replaceAll('-', ' ');
+
+                messagesContainer.appendChild(newMessageTemplate);
+            }
+
+            return messageListings;
+        }
+
+        async function updateAll() {
+            const dashboards = updateDashboards();
+            const messages = updateMessages();
+            await dashboards;
+            await messages;
+        }
+
+        updateAll().then();
+    }
+</script>
 </body>
 </html>
