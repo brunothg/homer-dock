@@ -14,6 +14,15 @@ It is designed to be lightweight (backed by BusyBox httpd) and capable of being 
 ![Release](https://img.shields.io/github/v/release/brunothg/homer-dock)
 
 
+![Dashboard](https://raw.github.com/brunothg/homer-dock/main/docs/screenshot-dashboard.png)
+
+![Configuration](https://raw.github.com/brunothg/homer-dock/main/docs/screenshot-config.png)
+
+![Configuration](https://raw.github.com/brunothg/homer-dock/main/docs/screenshot-config-message.png)
+
+![Configuration](https://raw.github.com/brunothg/homer-dock/main/docs/screenshot-config-dashboard.png)
+
+
 ## Run
 Just start `docker run <image>` or explicit `docker run <image> httpd` and the httpd server will be started.
 For what reason so ever you might want to run something else you can run `docker run <image> ...` (e.g. `docker run <image> bash`).
