@@ -95,6 +95,9 @@ Copyright 2023 brunothg
 
 <script type="application/javascript">
     {
+        const messageId = (window.location.hash) ? window.location.hash.substring(1) : null;
+        const messageUrl = `config/message/message.exec?mode=entity${(messageId) ? '&id=' + messageId : ''}`;
+
         const messageConfigForm = document.getElementById('message-config-form');
         messageConfigForm.addEventListener('submit', ev => {
             ev.preventDefault();
@@ -120,7 +123,7 @@ Copyright 2023 brunothg
         }
 
         async function deleteMessage() {
-            const messageResp = await fetch('config/message/message.exec', {
+            const messageResp = await fetch(messageUrl, {
                 method: 'DELETE'
             });
             if (!messageResp.ok) {
@@ -134,7 +137,7 @@ Copyright 2023 brunothg
         }
 
         async function saveMessage(messageConfig) {
-            const messageResp = await fetch('config/message/message.exec', {
+            const messageResp = await fetch(messageUrl, {
                 method: 'POST',
                 body: JSON.stringify(messageConfig)
             });
@@ -150,7 +153,7 @@ Copyright 2023 brunothg
         }
 
         async function updateMessage() {
-            const messageResp = await fetch('config/message/message.exec');
+            const messageResp = await fetch(messageUrl);
             if (!messageResp.ok) {
                 console.warn("Could not load current message config: ", messageResp.status, messageResp.statusText)
                 setInfo(`${await HomerLang.getLangValue('message-config-loading-error-title') || 'Load message'}: ${messageResp.status} ${messageResp.statusText}`);
