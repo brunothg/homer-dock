@@ -7,11 +7,13 @@
 #       http://www.apache.org/licenses/LICENSE-2.0
 
 ARG ALPINE_VERSION="latest"
-
 FROM alpine:$ALPINE_VERSION
-LABEL authors="brunothg"
-
 ENV ALPINE_VERSION="$ALPINE_VERSION"
+
+LABEL org.opencontainers.image.authors="brunothg"
+LABEL org.opencontainers.image.source="https://github.com/brunothg/homer-dock"
+LABEL org.opencontainers.image.description="Docker image for Homer dashboard with web configuration UI"
+LABEL org.opencontainers.image.licenses="Apache-2.0"
 
 ARG HTTPD_CONF="/etc/httpd/httpd.conf"
 ENV HTTPD_CONF="${HTTPD_CONF}"
