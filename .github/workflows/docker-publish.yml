@@ -36,7 +36,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Load build.conf
-        run: cat build.args | sed "s/^[ \t]*//" | grep "^[^#].*" >> $GITHUB_ENV
+        run: cat build.conf | sed "s/^[ \t]*//" | grep "^[^#].*" >> "$GITHUB_ENV"
+        # cat build.conf | sed "s/^[ \t]*//" | grep "^[^#].*" | sed 's/^/PROJ_/'
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
@@ -83,8 +84,8 @@ jobs:
         with:
           context: .
           build-args: |
-            ALPINE_VERSION=${{ ALPINE_VERSION }}
-            HOMER_VERSION=${{ HOMER_VERSION }}
+            ALPINE_VERSION=${{ env.ALPINE_VERSION }}
+            HOMER_VERSION=${{ env.HOMER_VERSION }}
           platforms: linux/amd64,linux/386,linux/arm64,linux/arm/v7
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
