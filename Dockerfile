@@ -23,8 +23,6 @@ ENV HTTPD_HOME="$HTTPD_HOME"
 ARG HOMER_VERSION="latest"
 ENV HOMER_VERSION="$HOMER_VERSION"
 
-ENV VERSIONS_HOME="/etc/full-versions"
-
 COPY src/httpd/execute.sh /usr/local/bin/execute
 COPY src/httpd/php.override.ini /etc/php82/conf.d/php.override.ini
 RUN set -x  \
@@ -32,9 +30,6 @@ RUN set -x  \
           wget \
           jq \
           unzip \
-    && mkdir -p "$VERSIONS_HOME" \
-    && wget -q --output-document - https://api.github.com/repos/bastienwirtz/homer/releases | jq -r ". | sort_by(.name) | reverse | [.[] | select(.name | test(\"^v$HOMER_VERSION([.].*)?$\"))][0] | .name" | cut -c 2- > "$VERSIONS_HOME/HOMER_FULL_VERSION" \
-    && grep '^VERSION' /etc/os-release | cut -d = -f2 > "$VERSIONS_HOME/ALPINE_FULL_VERSION" \
     && mkdir -p "$HTTPD_HOME" \
     && mkdir -p "$(dirname "$HTTPD_CONF")" \
     && apk add --no-cache \
@@ -44,7 +39,7 @@ RUN set -x  \
     && ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi" \
     && chmod 555 /usr/local/bin/execute && dos2unix /usr/local/bin/execute \
     && chmod 444 /etc/php82/conf.d/php.override.ini && dos2unix /etc/php82/conf.d/php.override.ini \
-    && wget "https://github.com/bastienwirtz/homer/releases/download/v$(cat "$VERSIONS_HOME/HOMER_FULL_VERSION")/homer.zip" -O "/tmp/homer.zip" \
+    && wget "https://github.com/bastienwirtz/homer/releases/download/v$HOMER_VERSION/homer.zip" -O "/tmp/homer.zip" \
     && unzip -d "${HTTPD_HOME}" "/tmp/homer.zip"
 
 
