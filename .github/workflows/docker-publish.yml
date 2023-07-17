@@ -6,6 +6,8 @@ name: Docker
 # documentation.
 
 on:
+#  schedule:
+#    - cron: '44 15 * * *'
   push:
     branches: [ "main" ]
     tags: [ 'v*.*.*' ]
