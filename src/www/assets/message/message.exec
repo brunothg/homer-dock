@@ -1,0 +1,21 @@
+#!/usr/bin/env php-cgi
+<?php
+# Copyright 2023 brunothg
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header('Content-Type: application/json; charset=utf-8');
+
+$messageId = str_replace(DIRECTORY_SEPARATOR, "-", (isset($_GET['id']) && $_GET['id']) ? $_GET['id'] : 'message');
+$messagesBasePath = join(DIRECTORY_SEPARATOR, array('..', '..', 'assets', 'message'));
+$messageFilePath = join(DIRECTORY_SEPARATOR, array($messagesBasePath, $messageId . '.json'));
+echo json_encode(json_decode(file_get_contents($messageFilePath) ?: '{}', true));
+
+?>

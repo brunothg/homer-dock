@@ -1,0 +1,176 @@
+<!--
+Copyright 2023 brunothg
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../../">
+
+    <link rel="stylesheet" href="resources/w3/w3.css">
+    <link rel="stylesheet" href="resources/w3/w3-theme.css">
+    <link rel="stylesheet" href="resources/prism/prism.css">
+    <link rel="stylesheet" href="resources/prism/prism-editor.css">
+
+    <script type="application/javascript" src="resources/lang/lang.js"></script>
+    <script type="application/javascript" src="config/config.js"></script>
+    <script type="application/javascript" src="resources/prism/prism.js"></script>
+    <script type="application/javascript" src="resources/prism/prism-editor.js"></script>
+
+    <title data-lang="dashboard-config-title">Dashboard configuration</title>
+</head>
+<body>
+
+<header class="w3-container w3-theme">
+    <h1>
+        <a class="w3-btn w3-round w3-large w3-border w3-border-theme-action" title="Back" href="config/">⬅️</a>
+        <span data-lang="dashboard-config-title">Dashboard configuration</span>
+    </h1>
+</header>
+
+<main class="w3-container w3-theme-light">
+    <section class="w3-section w3-card">
+        <header class="w3-container w3-row w3-theme-l2">
+            <div class="w3-container w3-show-inline-block">
+                <h3><span data-lang="dashboard-config-form-title">Dashboard</span> <small id="dashboard-config-form-subtitle"></small></h3>
+            </div>
+            <div class="w3-container w3-show-inline-block w3-padding w3-right">
+                <button id="dashboard-config-btn-delete" type="button"
+                        class="w3-btn w3-round w3-theme-action w3-hover-red" title="Delete">🗑️
+                </button>
+            </div>
+        </header>
+        <form id="dashboard-config-form" name="dashboard-config" class="w3-container">
+            <div class="w3-section">
+                <div class="prism-editor" data-prism-lang="yaml">
+                    <textarea id="dashboard-config-form-input-content" name="content" class="w3-input"></textarea>
+                </div>
+                <label for="dashboard-config-form-input-content"
+                       data-lang="dashboard-config-form-input-configuration">Configuration</label>
+            </div>
+
+            <div class="w3-section w3-cell-row">
+                <div class="w3-container w3-cell">
+                    <button type="submit" class="w3-btn w3-round w3-theme-action w3-col" data-lang="form-save">Save
+                    </button>
+                </div>
+                <div class="w3-container w3-cell">
+                    <button type="reset" class="w3-btn w3-round w3-theme-action w3-col" data-lang="form-reset">Reset
+                    </button>
+                </div>
+            </div>
+        </form>
+    </section>
+</main>
+
+<footer class="w3-container w3-theme">
+    <p></p>
+    <p id="info-text" class="w3-round w3-pale-yellow w3-padding-small w3-hide-empty"></p>
+</footer>
+
+<script type="application/javascript">
+    {
+        const dashboardId = (window.location.hash) ? window.location.hash.substring(1) : null;
+        const dashboardUrl = `config/dashboard/dashboard.exec?mode=entity${(dashboardId) ? '&id=' + dashboardId : ''}`;
+
+        const dashboardConfigFormSubtitle = document.getElementById('dashboard-config-form-subtitle');
+        dashboardConfigFormSubtitle.innerText = dashboardId || '';
+
+        const dashboardConfigForm = document.getElementById('dashboard-config-form');
+        const dashboardConfigEditor = document.getElementById('dashboard-config-form-input-content');
+        dashboardConfigForm.addEventListener('submit', ev => {
+            ev.preventDefault();
+            const dashboardConfig = dashboardConfigEditor.value;
+            console.log("Save dashboard config: ", dashboardConfig);
+
+            saveDashboard(dashboardConfig).then();
+        })
+        dashboardConfigForm.addEventListener('reset', ev => {
+            updateDashboard().then();
+        });
+
+        const deleteBtn = document.getElementById('dashboard-config-btn-delete');
+        deleteBtn.addEventListener('click', ev => {
+            deleteDashboard().then();
+        });
+
+        function resizeEditor() {
+            dashboardConfigEditor.style.display = 'none';
+            dashboardConfigEditor.style.height = `max(15rem, ${window.innerHeight - document.body.offsetHeight}px)`;
+            dashboardConfigEditor.style.display = '';
+        }
+
+        window.addEventListener('resize', () => {
+            resizeEditor();
+        });
+
+        const infoText = document.getElementById('info-text');
+
+        function setInfo(info) {
+            const now = new Date();
+            infoText.innerText = `${(now.getHours() + '').padStart(2, '0')}:${(now.getMinutes() + '').padStart(2, '0')}:${(now.getSeconds() + '').padStart(2, '0')} | ${info}`;
+            resizeEditor();
+        }
+
+        async function deleteDashboard() {
+            const dashboardResp = await fetch(dashboardUrl, {
+                method: 'DELETE'
+            });
+            if (!dashboardResp.ok) {
+                setInfo(`${await HomerLang.getLangValue('dashboard-config-deleting-error-title') || 'Delete dashboard'}: ${dashboardResp.status} ${dashboardResp.statusText}`);
+                console.warn("Could not delete dashboard config: ", dashboardResp.status, dashboardResp.statusText);
+                return;
+            }
+            setInfo(`${await HomerLang.getLangValue('dashboard-config-deleting-success-title') || 'Dashboard deleted'}`);
+            console.log("Deleted dashboard config");
+            dashboardConfigForm.reset();
+        }
+
+        async function saveDashboard(dashboardConfig) {
+            const dashboardResp = await fetch(dashboardUrl, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/yaml"
+                },
+                body: dashboardConfig
+            });
+            if (!dashboardResp.ok) {
+                setInfo(`${await HomerLang.getLangValue('dashboard-config-saving-error-title') || 'Save dashboard'}: ${dashboardResp.status} ${dashboardResp.statusText}`);
+                console.warn("Could not save dashboard config: ", dashboardResp.status, dashboardResp.statusText);
+                return;
+            }
+            dashboardConfig = await dashboardResp.text();
+            setInfo(`${await HomerLang.getLangValue('dashboard-config-saving-success-title') || 'Dashboard saved'}`);
+            console.log("Update dashboard config: ", dashboardConfig);
+            dashboardConfigEditor.value = dashboardConfig;
+            dashboardConfigEditor.dispatchEvent(new Event('change'));
+        }
+
+        async function updateDashboard() {
+            const dashboardResp = await fetch(dashboardUrl);
+            if (!dashboardResp.ok) {
+                console.warn("Could not load current dashboard config: ", dashboardResp.status, dashboardResp.statusText)
+                setInfo(`${await HomerLang.getLangValue('dashboard-config-loading-error-title') || 'Load dashboard'}: ${dashboardResp.status} ${dashboardResp.statusText}`);
+                return null;
+            }
+
+            const dashboardConfig = await dashboardResp.text();
+            console.log("Update dashboard config: ", dashboardConfig);
+            dashboardConfigEditor.value = dashboardConfig;
+            dashboardConfigEditor.dispatchEvent(new Event('change'));
+            return dashboardConfig;
+        }
+
+        resizeEditor();
+        updateDashboard().then();
+        PrismEditor.highlightAll();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+#!/usr/bin/env php-cgi
+<?php
+# Copyright 2023 brunothg
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+
+function listMessages(string $path): array
+{
+    return array_values(
+        array_map(
+            function ($elem) {
+                $messageId = substr($elem, 0, strlen($elem) - 5);
+                return array('id' => $messageId);
+            },
+            array_filter(
+                scandir($path) ?: array(),
+                function ($elem) use ($path) {
+                    $filename = join(DIRECTORY_SEPARATOR, array($path, $elem));
+                    return str_ends_with($filename, '.json') && is_file($filename);
+                }
+            )
+        )
+    );
+}
+
+function getMessage(string $path): array
+{
+    return json_decode(file_get_contents($path) ?: '{}', true);
+}
+
+function deleteMessage(string $path): void
+{
+    unlink($path);
+}
+
+function setMessage(array $message, string $path): array
+{
+    file_put_contents($path, json_encode($message));
+    return getMessage($path);
+}
+
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header('Content-Type: application/json; charset=utf-8');
+
+$fetchMode = (isset($_GET['mode'])) ? $_GET['mode'] : 'entity';
+$messageId = str_replace(DIRECTORY_SEPARATOR, "-", (isset($_GET['id']) && $_GET['id']) ? $_GET['id'] : 'message');
+$messagesBasePath = join(DIRECTORY_SEPARATOR, array('..', '..', 'assets', 'message'));
+$messageFilePath = join(DIRECTORY_SEPARATOR, array($messagesBasePath, $messageId . '.json'));
+switch ($_SERVER['REQUEST_METHOD']) {
+    case 'GET':
+        if ($fetchMode == 'entity') {
+            echo json_encode(getMessage($messageFilePath));
+        } elseif ($fetchMode == 'list') {
+            echo json_encode(listMessages($messagesBasePath));
+        } else {
+            http_response_code(400);
+        }
+        break;
+
+    case 'PUT':
+    case 'POST':
+        $postMessage = json_decode(file_get_contents('php://input'), true);
+        echo json_encode(setMessage($postMessage, $messageFilePath));
+        break;
+
+    case 'DELETE':
+        deleteMessage($messageFilePath);
+        break;
+
+    default:
+        http_response_code(405);
+        break;
+}
+?>
