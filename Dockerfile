@@ -7,31 +7,31 @@
 #       http://www.apache.org/licenses/LICENSE-2.0
 
 ARG ALPINE_VERSION="latest"
-
 FROM alpine:$ALPINE_VERSION
-LABEL authors="brunothg"
-
 ENV ALPINE_VERSION="$ALPINE_VERSION"
 
-ARG HTTPD_CONF="/etc/httpd/httpd.conf"
-ENV HTTPD_CONF="${HTTPD_CONF}"
+LABEL org.opencontainers.image.authors="brunothg"
+LABEL org.opencontainers.image.source="https://github.com/brunothg/homer-dock"
+LABEL org.opencontainers.image.description="Docker image for Homer dashboard with web configuration UI"
+LABEL org.opencontainers.image.licenses="Apache-2.0"
 
+
+# Setup environment
 ARG HTTPD_HOME="/var/www"
 ENV HTTPD_HOME="$HTTPD_HOME"
 
 ARG HOMER_VERSION="latest"
 ENV HOMER_VERSION="$HOMER_VERSION"
 
-
-# Setup environment
 COPY src/httpd/execute.sh /usr/local/bin/execute
 COPY src/httpd/php.override.ini /etc/php82/conf.d/php.override.ini
 RUN set -x  \
+    && apk add --no-cache --virtual .build-deps \
+          wget \
+          jq \
+          unzip \
     && mkdir -p "$HTTPD_HOME" \
     && mkdir -p "$(dirname "$HTTPD_CONF")" \
-    && apk add --no-cache --virtual .build-deps \
-      wget \
-      unzip \
     && apk add --no-cache \
       busybox-extras \
       bash \
@@ -39,11 +39,14 @@ RUN set -x  \
     && ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi" \
     && chmod 555 /usr/local/bin/execute && dos2unix /usr/local/bin/execute \
     && chmod 444 /etc/php82/conf.d/php.override.ini && dos2unix /etc/php82/conf.d/php.override.ini \
-    && wget "https://github.com/bastienwirtz/homer/releases$(if [ "$HOMER_VERSION" == "latest" ]; then echo "/latest"; fi)/download$(if [ "$HOMER_VERSION" != "latest" ]; then echo "/$HOMER_VERSION"; fi)/homer.zip" -O "/tmp/homer.zip" \
+    && wget "https://github.com/bastienwirtz/homer/releases/download/v$HOMER_VERSION/homer.zip" -O "/tmp/homer.zip" \
     && unzip -d "${HTTPD_HOME}" "/tmp/homer.zip"
 
 
 # Setup server
+ARG HTTPD_CONF="/etc/httpd/httpd.conf"
+ENV HTTPD_CONF="${HTTPD_CONF}"
+
 COPY src/httpd/httpd.conf "${HTTPD_CONF}"
 COPY src/www/ "/tmp/www/"
 COPY LICENSE "/tmp/www/LICENSE"

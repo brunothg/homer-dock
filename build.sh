@@ -21,7 +21,7 @@ echo "Running '$SELF_SCRIPT' in '$PWD_SCRIPT'"
 # Load dependencies #
 #####################
 
-source "$DIR_SCRIPT/project.conf"
+source "$DIR_SCRIPT/build.conf"
 
 #################
 # Prepare build #
@@ -30,10 +30,15 @@ source "$DIR_SCRIPT/project.conf"
 PROJECT_DTAG="$PROJECT_DTAG"
 if [ -z "$PROJECT_DTAG" ]
 then
-  PROJECT_DTAG="localhost/${PROJECT_NAME:?}:${PROJECT_VERSION:?}"
+  PROJECT_DTAG="localhost/homer-dock:latest"
 fi
 
 ######################
 # Build docker image #
 ######################
-docker build -t "$PROJECT_DTAG" --build-arg ALPINE_VERSION="${ALPINE_VERSION:?}" --build-arg HOMER_VERSION="${HOMER_VERSION:?}" "$@" .
+docker build \
+  --tag "$PROJECT_DTAG" \
+  --label "org.opencontainers.image.version=latest" \
+  --build-arg ALPINE_VERSION="${ALPINE_VERSION:?}" \
+  --build-arg HOMER_VERSION="${HOMER_VERSION:?}" \
+  "$@" .
