@@ -75,9 +75,9 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=raw,value=homer${{ env.HOMER_VERSION }}
-            type=raw,value={{tag}}
-            type=raw,value={{tag}}-homer${{ env.HOMER_VERSION }}
+            type=raw,value=homer${{ env.HOMER_VERSION }},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=raw,value={{tag}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=raw,value={{tag}}-homer${{ env.HOMER_VERSION }},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
             type=sha
 
       # Build and push Docker image with Buildx (don't push on PR)
