@@ -15,6 +15,7 @@ Copyright 2023 brunothg
 
     <link rel="stylesheet" href="resources/w3/w3.css">
     <link rel="stylesheet" href="resources/w3/w3-theme.css">
+    <link rel="stylesheet" href="resources/w3/w3-addons.css">
     <link rel="stylesheet" href="resources/prism/prism.css">
     <link rel="stylesheet" href="resources/prism/prism-editor.css">
 
@@ -29,7 +30,7 @@ Copyright 2023 brunothg
 
 <header class="w3-container w3-theme">
     <h1>
-        <a class="w3-btn w3-round w3-large w3-border w3-border-theme-action" title="Back" href="config/">⬅️</a>
+        <a class="w3-btn w3-round w3-large w3-border w3-border-theme-action" data-lang-attr="title=back" title="Back" href="config/">&larr;</a>
         <span data-lang="message-config-title">Message configuration</span>
     </h1>
 </header>
@@ -42,7 +43,8 @@ Copyright 2023 brunothg
             </div>
             <div class="w3-container w3-show-inline-block w3-padding w3-right">
                 <button id="message-config-btn-delete" type="button"
-                        class="w3-btn w3-round w3-theme-action w3-hover-red" title="Delete">🗑️
+                        class="w3-btn w3-round w3-theme-action w3-hover-red" data-lang-attr="title=delete" title="Delete">
+                    &empty;
                 </button>
             </div>
         </header>
