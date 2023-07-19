@@ -1,5 +1,8 @@
 {
   "loading": "Lädt ...",
+  "back": "Zurück",
+  "new": "Neu",
+  "delete": "Löschen",
   "form-save": "Speichern",
   "form-reset": "Zurücksetzen",
   "form-delete": "Löschen",

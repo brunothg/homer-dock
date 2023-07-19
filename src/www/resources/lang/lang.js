@@ -53,7 +53,22 @@ const HomerLang = new (class {
                 if (langValue) {
                     ele.innerText = langValue;
                 }
-            })
+            });
+            document.querySelectorAll('*[data-lang-attr]').forEach(ele => {
+                const langAttr = ele.dataset.langAttr.split('=', 2);
+                if (langAttr.length !== 2) {
+                    console.warn("Wrong number of lang-attr values (expected 2): ", langAttr);
+                }
+
+                const attrKey = langAttr[0];
+                const langKey = langAttr[1];
+                const langValue = langVal[langKey];
+                console.debug("Update lang ", ele, `${langKey} -> ${langValue}`);
+
+                if (langValue) {
+                    ele.setAttribute(attrKey, langValue);
+                }
+            });
         }
 
         return lang
