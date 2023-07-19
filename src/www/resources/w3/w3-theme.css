@@ -41,27 +41,3 @@
 .w3-hover-text-theme:hover {color:var(--w3-theme) !important}
 .w3-hover-border-theme:hover {border-color:var(--w3-theme) !important}
 .w3-hover-border-theme-action:hover {border-color:var(--w3-theme-d5) !important}
-
-textarea {
-    resize: vertical;
-}
-
-.w3-hide-empty:empty {
-    display: none;
-}
-
-.w3-margin-0 {
-    margin: 0;
-}
-
-.w3-margin-auto {
-    margin: auto;
-}
-
-.w3-padding-0 {
-    padding: 0;
-}
-
-.w3-capitalize {
-    text-transform: capitalize;
-}

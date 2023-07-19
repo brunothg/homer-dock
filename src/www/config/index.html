@@ -15,6 +15,7 @@ Copyright 2023 brunothg
 
     <link rel="stylesheet" href="resources/w3/w3.css">
     <link rel="stylesheet" href="resources/w3/w3-theme.css">
+    <link rel="stylesheet" href="resources/w3/w3-addons.css">
 
     <script type="application/javascript" src="resources/lang/lang.js"></script>
     <script type="application/javascript" src="config/config.js"></script>
@@ -25,7 +26,7 @@ Copyright 2023 brunothg
 
 <header class="w3-container w3-theme">
     <h1>
-        <a class="w3-btn w3-round w3-large w3-border w3-border-theme-action" title="Back" href=".">⬅️</a>
+        <a class="w3-btn w3-round w3-large w3-border w3-border-theme-action" title="Back" href=".">&larr;</a>
         <span data-lang="homer-config-title">Homer configuration</span>
     </h1>
 </header>
@@ -40,7 +41,8 @@ Copyright 2023 brunothg
                     </div>
                     <div class="w3-show-inline-block w3-padding w3-right">
                         <button id="homer-config-dashboards-btn-new" type="button"
-                                class="w3-btn w3-round w3-border w3-border-theme-action w3-hover-green" title="New">➕
+                                class="w3-btn w3-round w3-border w3-border-theme-action w3-hover-green" title="New">
+                            +
                         </button>
                     </div>
                 </div>
@@ -60,7 +62,8 @@ Copyright 2023 brunothg
                     </div>
                     <div class="w3-show-inline-block w3-padding w3-right">
                         <button id="homer-config-messages-btn-new" type="button"
-                                class="w3-btn w3-round w3-border w3-border-theme-action w3-hover-green" title="New">➕
+                                class="w3-btn w3-round w3-border w3-border-theme-action w3-hover-green" title="New">
+                            +
                         </button>
                     </div>
                 </div>
@@ -79,11 +82,7 @@ Copyright 2023 brunothg
     <div id="template-homer-config-dashboard-card" class="w3-container w3-section w3-col s6 m4 l2">
         <article class="w3-card">
             <div class="w3-center w3-theme-l2">
-                <svg viewBox="0 0 100 100">
-                    <text x="50" y="50" font-size="75" text-anchor="middle" dominant-baseline="central">
-                        🪟
-                    </text>
-                </svg>
+                <img class="w3-padding-large" src="resources/icons/dashboard.svg" alt="Dashboard">
             </div>
             <footer class="w3-theme-action">
                 <a id="template-homer-config-dashboard-card-link" href=""
@@ -95,11 +94,7 @@ Copyright 2023 brunothg
     <div id="template-homer-config-message-card" class="w3-container w3-section w3-col s6 m4 l2">
         <article class="w3-card">
             <div class="w3-center w3-theme-l2">
-                <svg viewBox="0 0 100 100">
-                    <text x="50" y="50" font-size="75" text-anchor="middle" dominant-baseline="middle">
-                        ✉️
-                    </text>
-                </svg>
+                <img class="w3-padding-large" src="resources/icons/message.svg" alt="Message">
             </div>
             <footer class="w3-theme-action">
                 <a id="template-homer-config-message-card-link" href=""
