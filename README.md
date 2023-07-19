@@ -67,3 +67,24 @@ Using Nginx as reverse proxy, you can use the following extract as a base config
             proxy_redirect $HOMER_MASTER $prefix;
         }
     }
+
+## Docker compose
+For docker/podman you may want to use the following as a starting point:
+
+    ---
+    version: '3'
+    services:
+        homer:
+            image: ghcr.io/brunothg/homer-dock:latest
+            command: httpd
+            ports:
+                - "8080:8080"
+            volumes:
+                - assets:/var/www/assets
+    volumes:
+        assets:
+            driver: local
+            driver_opts:
+                type: none
+                o: bind
+                device: "/<path to persistent storage>"
