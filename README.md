@@ -41,3 +41,29 @@ or `docker run --env-file <image>`:
  * HTTPD_USERID=82
  * HTTPD_GROUPID=$HTTPD_USERID
  * HOMER_WEB_CONFIG=1
+
+## Nginx config
+Using Nginx as reverse proxy, you can use the following extract as a base configuration:
+
+    set $HOMER_MASTER http://localhost:8080
+    location ~ ^(?<prefix>/homer)$ {
+        return 301 $schema://$host:$server_port$prefix/;
+    }
+    location ~ ^(?<prefix>/homer)(?<local_path>/.*) {
+        proxy_set_header Host $host;
+        
+        rewrite ^ $local_path break;
+        proxy_pass $HOMER_MASTER;
+        proxy_redirect $HOMER_MASTER $prefix;
+
+        location ~ ^(?<prefix>/homer)(?<local_path>/config/.*) {
+            auth_basic "Homer Configuration";
+            auth_basic_user_file /etc/apache2/.htpasswd;
+
+            proxy_set_header Host $host;
+        
+            rewrite ^ $local_path break;
+            proxy_pass $HOMER_MASTER;
+            proxy_redirect $HOMER_MASTER $prefix;
+        }
+    }
