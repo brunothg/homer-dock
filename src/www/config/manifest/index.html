@@ -123,6 +123,7 @@ Copyright 2023 brunothg
             setInfo(`${await HomerLang.getLangValue('manifest-config-saving-success-title') || 'Manifest saved'}`);
             console.log("Update manifest config: ", manifestConfig);
             HomerConfig.objFillForm(manifestConfig, manifestConfigForm);
+            await HomerConfig.updateTheme();
         }
 
         async function updateManifest() {
