@@ -20,10 +20,17 @@ function setManifest(array $manifest): array
 {
     global $MANIFEST_PATH;
 
-    // TODO check fields
-    // load original - overwrite new - discard non existing
+    $finalManifest = getManifest();
+    foreach ($manifest as $key => $value) {
+        if (
+                array_key_exists($key, $finalManifest)
+                && gettype($finalManifest[$key]) == gettype($value)
+        ) {
+            $finalManifest[$key] = $value;
+        }
+    }
 
-    file_put_contents($MANIFEST_PATH, json_encode($manifest));
+    file_put_contents($MANIFEST_PATH, json_encode($finalManifest));
     return getManifest($MANIFEST_PATH);
 }
 
