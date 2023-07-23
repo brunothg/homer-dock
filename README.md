@@ -18,9 +18,9 @@ It is designed to be lightweight (backed by BusyBox httpd) and capable of being 
 
 ![Configuration](https://raw.github.com/brunothg/homer-dock/main/docs/screenshot-config.png)
 
-![Configuration](https://raw.github.com/brunothg/homer-dock/main/docs/screenshot-config-message.png)
+![Message configuration](https://raw.github.com/brunothg/homer-dock/main/docs/screenshot-config-message.png)
 
-![Configuration](https://raw.github.com/brunothg/homer-dock/main/docs/screenshot-config-dashboard.png)
+![Dashboard configuration](https://raw.github.com/brunothg/homer-dock/main/docs/screenshot-config-dashboard.png)
 
 
 ## Run
