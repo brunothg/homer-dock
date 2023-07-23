@@ -130,11 +130,6 @@ const HomerConfig = new (class {
     )()
 ;
 
-document.addEventListener(
-    "DOMContentLoaded"
-    , () => {
-        HomerConfig
-            .updateTheme()
-            .then();
-    }
-);
+HomerConfig
+    .updateTheme()
+    .then();
