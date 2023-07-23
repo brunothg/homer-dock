@@ -26,7 +26,7 @@ Copyright 2023 brunothg
 
     <title data-lang="dashboard-config-title">Dashboard configuration</title>
 </head>
-<body>
+<body class="w3-flex w3-wh100">
 
 <header class="w3-container w3-theme">
     <h1>
@@ -35,8 +35,8 @@ Copyright 2023 brunothg
     </h1>
 </header>
 
-<main class="w3-container w3-theme-light">
-    <section class="w3-section w3-card">
+<main class="w3-container w3-theme-light w3-flex w3-flex-grow w3-scrollable">
+    <section class="w3-section w3-card w3-flex w3-flex-grow">
         <header class="w3-container w3-row w3-theme-l2">
             <div class="w3-container w3-show-inline-block">
                 <h3><span data-lang="dashboard-config-form-title">Dashboard</span> <small id="dashboard-config-form-subtitle"></small></h3>
@@ -48,10 +48,10 @@ Copyright 2023 brunothg
                 </button>
             </div>
         </header>
-        <form id="dashboard-config-form" name="dashboard-config" class="w3-container">
-            <div class="w3-section">
-                <div class="prism-editor" data-prism-lang="yaml">
-                    <textarea id="dashboard-config-form-input-content" name="content" class="w3-input"></textarea>
+        <form id="dashboard-config-form" name="dashboard-config" class="w3-container w3-flex w3-flex-grow">
+            <div class="w3-section w3-flex w3-flex-grow">
+                <div class="prism-editor w3-flex w3-flex-grow" data-prism-lang="yaml">
+                    <textarea id="dashboard-config-form-input-content" name="content" class="w3-input w3-flex-grow" rows="10"></textarea>
                 </div>
                 <label for="dashboard-config-form-input-content"
                        data-lang="dashboard-config-form-input-configuration">Configuration</label>
@@ -102,22 +102,11 @@ Copyright 2023 brunothg
             deleteDashboard().then();
         });
 
-        function resizeEditor() {
-            dashboardConfigEditor.style.display = 'none';
-            dashboardConfigEditor.style.height = `max(15rem, ${window.innerHeight - document.body.offsetHeight}px)`;
-            dashboardConfigEditor.style.display = '';
-        }
-
-        window.addEventListener('resize', () => {
-            resizeEditor();
-        });
-
         const infoText = document.getElementById('info-text');
 
         function setInfo(info) {
             const now = new Date();
             infoText.innerText = `${(now.getHours() + '').padStart(2, '0')}:${(now.getMinutes() + '').padStart(2, '0')}:${(now.getSeconds() + '').padStart(2, '0')} | ${info}`;
-            resizeEditor();
         }
 
         async function deleteDashboard() {
@@ -169,7 +158,6 @@ Copyright 2023 brunothg
             return dashboardConfig;
         }
 
-        resizeEditor();
         updateDashboard().then();
         PrismEditor.highlightAll();
     }

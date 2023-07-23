@@ -79,5 +79,5 @@ const HomerLang = new (class {
 document.addEventListener("DOMContentLoaded", () => {
     HomerLang.updatePageLang().then((effectiveLang) => {
         console.log("Updated page language: ", effectiveLang);
-    })
+    });
 });

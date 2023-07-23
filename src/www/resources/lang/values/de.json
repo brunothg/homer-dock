@@ -13,6 +13,7 @@
   "homer-config-dashboards-loading-error-title": "Lade Dashboards",
   "homer-config-dashboards-new-id-prompt": "Erstelle neues Dashboard. \nBitte ID eingeben:",
   "homer-config-messages-new-id-prompt": "Erstelle neue Nachricht. \nBitte ID eingeben:",
+  "homer-config-homer-btn-manifest": "Manifest",
   "message-config-title": "Nachrichten Konfiguration",
   "message-config-form-title": "Nachricht",
   "message-config-form-input-title": "Titel",
@@ -31,5 +32,12 @@
   "dashboard-config-saving-error-title": "Speicher Dashboard",
   "dashboard-config-saving-success-title": "Dashboard gespeichert",
   "dashboard-config-deleting-error-title": "Lösche Dashboard",
-  "dashboard-config-deleting-success-title": "Dashboard gelöscht"
+  "dashboard-config-deleting-success-title": "Dashboard gelöscht",
+  "manifest-config-title": "Manifest Konfiguration",
+  "manifest-config-form-title": "Manifest",
+  "manifest-config-form-input-name": "Name",
+  "manifest-config-form-input-short_name": "Kurzname",
+  "manifest-config-form-input-language": "Sprache",
+  "manifest-config-form-input-description": "Beschreibung",
+  "manifest-config-form-input-theme_color": "Themenfarbe"
 }
