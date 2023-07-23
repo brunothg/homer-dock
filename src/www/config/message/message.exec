@@ -39,6 +39,7 @@ function deleteMessage(string $path): void
 
 function setMessage(array $message, string $path): array
 {
+    // TODO check fields
     file_put_contents($path, json_encode($message));
     return getMessage($path);
 }

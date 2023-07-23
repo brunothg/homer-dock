@@ -2,6 +2,11 @@ textarea {
     resize: vertical;
 }
 
+input[type=color] {
+    padding: 0;
+    height: 2rem;
+}
+
 .w3-hide-empty:empty {
     display: none;
 }
