@@ -1,3 +1,8 @@
+html {
+    width: 100vw;
+    height: 100vh;
+}
+
 textarea {
     resize: vertical;
 }
@@ -25,4 +30,48 @@ input[type=color] {
 
 .w3-capitalize {
     text-transform: capitalize;
+}
+
+.w3-scrollable-x, .w3-scrollable {
+    overflow-x: auto;
+}
+
+.w3-scrollable-y, .w3-scrollable {
+    overflow-y: auto;
+}
+
+.w3-w100, .w3-wh100, .w3-hw100 {
+    width: 100%;
+}
+
+.w3-h100, .w3-wh100, .w3-hw100 {
+    height: 100%;
+}
+
+.w3-flex {
+    display: flex;
+}
+
+.w3-flex-vertical, .w3-flex:not(.w3-flex-horizontal) {
+    flex-direction: column;
+}
+
+.w3-flex-horizontal {
+    flex-direction: row;
+}
+
+.w3-flex-grow, .w3-flex-grow1 {
+    flex-grow: 1;
+}
+
+.w3-flex-shrink, .w3-flex-shrink1 {
+    flex-shrink: 1;
+}
+
+.w3-flex-grow0 {
+    flex-grow: 0;
+}
+
+.w3-flex-shrink0 {
+    flex-shrink: 0;
 }
