@@ -36,6 +36,7 @@ fi
 ######################
 # Build docker image #
 ######################
+echo "Build docker image: PROJECT_DTAG=$PROJECT_DTAG, ALPINE_VERSION=$ALPINE_VERSION, HOMER_VERSION=$HOMER_VERSION"
 docker build \
   --tag "$PROJECT_DTAG" \
   --label "org.opencontainers.image.version=latest" \
