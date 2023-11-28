@@ -18,6 +18,6 @@ PWD_SCRIPT="$(pwd)"
 echo "Running '$SELF_SCRIPT' in '$PWD_SCRIPT'"
 
 export PROJECT_DTAG="localhost/homer-dock:run"
-"$DIR_SCRIPT/build.sh"
+"$DIR_SCRIPT/build.sh" --no-cache
 docker run -it --rm -p 8080:8080 "$PROJECT_DTAG" "$@"
 docker rmi "$PROJECT_DTAG"
