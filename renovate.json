@@ -1,6 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "configMigration": true,
+  "platformAutomerge": true,
   "extends": [
     "config:recommended"
   ],
@@ -10,10 +11,13 @@
   "assignees": [
     "brunothg"
   ],
-  "platformAutomerge": true,
+  "labels": [
+    "dependencies"
+  ],
   "schedule": [
     "after 8am and before 12pm every weekday",
-    "after 10pm and before 8am every weekend"
+    "after 10pm every weekend",
+    "before 8am every weekend"
   ],
   "enabledManagers": [
     "github-actions",
@@ -24,7 +28,7 @@
       "description": "build.conf manager",
       "customType": "regex",
       "fileMatch": [
-        ""
+        "(?:^|/)build.conf$"
       ],
       "matchStrings": [
         "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)(?: versioning=(?<versioning>.*?))?(?:\\s*\\n).*?_VERSION=(?<currentValue>.*)(?:\\s*\\n|$)"
