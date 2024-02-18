@@ -27,7 +27,7 @@
         ""
       ],
       "matchStrings": [
-        "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)(?:\\s*\\n).*?_VERSION=(?<currentValue>.*)(?:\\s*\\n|$)"
+        "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)(?: versioning=(?<versioning>.*?))?(?:\\s*\\n).*?_VERSION=(?<currentValue>.*)(?:\\s*\\n|$)"
       ]
     }
   ],
