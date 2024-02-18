@@ -105,27 +105,29 @@ Copyright 2023 brunothg
 <div class="w3-hide">
 
     <div id="template-homer-config-dashboard-card" class="w3-container w3-section w3-col s6 m4 l2">
-        <article class="w3-card">
-            <div class="w3-row w3-center w3-theme-l2">
-                <img class="w3-col w3-padding-large" src="resources/icons/dashboard.svg" alt="Dashboard">
-            </div>
-            <footer class="w3-theme-action">
-                <a id="template-homer-config-dashboard-card-link" href=""
-                   class="w3-btn w3-block w3-round w3-capitalize"></a>
-            </footer>
-        </article>
+        <a id="template-homer-config-dashboard-card-link" href="" class="w3-btn w3-padding-0">
+            <article class="w3-card">
+                <div class="w3-row w3-theme-l2">
+                    <img class="w3-col w3-padding-large" src="resources/icons/dashboard.svg" alt="Dashboard">
+                </div>
+                <footer class="w3-row w3-theme-action">
+                    <div id="template-homer-config-dashboard-card-title" class="w3-col w3-padding w3-center w3-capitalize"></div>
+                </footer>
+            </article>
+        </a>
     </div>
 
     <div id="template-homer-config-message-card" class="w3-container w3-section w3-col s6 m4 l2">
-        <article class="w3-card">
-            <div class="w3-row w3-center w3-theme-l2">
-                <img class="w3-col w3-padding-large" src="resources/icons/message.svg" alt="Message">
-            </div>
-            <footer class="w3-theme-action">
-                <a id="template-homer-config-message-card-link" href=""
-                   class="w3-btn w3-block w3-round w3-theme-action w3-capitalize"></a>
-            </footer>
-        </article>
+        <a id="template-homer-config-message-card-link" href="" class="w3-btn w3-padding-0">
+            <article class="w3-card">
+                <div class="w3-row w3-theme-l2">
+                    <img class="w3-col w3-padding-large" src="resources/icons/message.svg" alt="Message">
+                </div>
+                <footer class="w3-row w3-theme-action">
+                    <div id="template-homer-config-message-card-title" class="w3-col w3-padding w3-center w3-capitalize"></div>
+                </footer>
+            </article>
+        </a>
     </div>
 
 </div>
@@ -188,12 +190,12 @@ Copyright 2023 brunothg
             const dashboardTemplate = document.getElementById('template-homer-config-dashboard-card');
             for (const dashboardListing of dashboardListings) {
                 const newDashboardTemplate = dashboardTemplate.cloneNode(true);
+                const dashboardTitle = newDashboardTemplate.querySelector('#template-homer-config-dashboard-card-title');
                 const dashboardLink = newDashboardTemplate.querySelector('#template-homer-config-dashboard-card-link');
 
-                newDashboardTemplate.id = "";
-                dashboardLink.id = ""
+                newDashboardTemplate.querySelectorAll('*[id]').forEach(ele => ele.id = "");
                 dashboardLink.href = `config/dashboard/#${dashboardListing.id}`;
-                dashboardLink.innerText = dashboardListing.id.replaceAll('-', ' ');
+                dashboardTitle.innerText = dashboardListing.id.replaceAll('-', ' ');
 
                 dashboardsContainer.appendChild(newDashboardTemplate);
             }
@@ -218,12 +220,12 @@ Copyright 2023 brunothg
             const messageTemplate = document.getElementById('template-homer-config-message-card');
             for (const messageListing of messageListings) {
                 const newMessageTemplate = messageTemplate.cloneNode(true);
+                const messageTitle = newMessageTemplate.querySelector('#template-homer-config-message-card-title');
                 const messageLink = newMessageTemplate.querySelector('#template-homer-config-message-card-link');
 
-                newMessageTemplate.id = "";
-                messageLink.id = "";
+                newMessageTemplate.querySelectorAll('*[id]').forEach(ele => ele.id = "");
                 messageLink.href = `config/message/#${messageListing.id}`;
-                messageLink.innerText = messageListing.id.replaceAll('-', ' ');
+                messageTitle.innerText = messageListing.id.replaceAll('-', ' ');
 
                 messagesContainer.appendChild(newMessageTemplate);
             }
