@@ -1,0 +1,30 @@
+name: Docker Delete
+
+on:
+  schedule:
+    - cron: '0 0 * * MON'
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+
+
+jobs:
+  delete:
+    name: Delete docker image
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Delete untagged packages
+        uses: actions/delete-package-versions@v4
+        with:
+          package-type: container
+          package-name: homer-dock
+          delete-only-untagged-versions: true
+          min-versions-to-keep: 0
