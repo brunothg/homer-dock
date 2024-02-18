@@ -26,6 +26,9 @@ ENV HTTPD_CONF="${HTTPD_CONF}"
 ARG HOMER_VERSION="latest"
 ENV HOMER_VERSION="$HOMER_VERSION"
 
+# TODO single copy src to tmp and RUN from there
+# TODO RUN 1 install deps, RUN 2 setup app
+# FIXME cgi link only if not exists
 COPY src/httpd/execute.sh /usr/local/bin/execute
 COPY src/httpd/php.override.ini /etc/php82/conf.d/php.override.ini
 RUN set -x  \
