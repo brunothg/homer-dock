@@ -9,6 +9,8 @@ on:
 
 jobs:
   extended_branch_rules:
+    name: Extended branch rules
+
     runs-on: ubuntu-latest
     steps:
       - name: Check PR to main only from develop

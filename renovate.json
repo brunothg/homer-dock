@@ -28,7 +28,7 @@
       "description": "build.conf manager",
       "customType": "regex",
       "fileMatch": [
-        "(?:^|/)build.conf$"
+        "(?:^|/)build\\.conf$"
       ],
       "matchStrings": [
         "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)(?: versioning=(?<versioning>.*?))?(?:\\s*\\n).*?_VERSION=(?<currentValue>.*)(?:\\s*\\n|$)"
@@ -37,7 +37,7 @@
   ],
   "packageRules": [
     {
-      "description": "Automatically patch-level updates",
+      "description": "Global automatic updates",
       "matchUpdateTypes": [
         "patch",
         "digest"
