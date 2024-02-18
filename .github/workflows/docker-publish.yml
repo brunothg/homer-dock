@@ -12,13 +12,9 @@ on:
     tags: [
       'v*.*.*'
     ]
-    branches: [
-      "develop"
-    ]
   pull_request:
     branches: [
-      "main",
-      "develop"
+      "main"
     ]
 
 env:
