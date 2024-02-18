@@ -11,6 +11,7 @@
   "labels": [
     "dependencies"
   ],
+  "timezone": "Europe/Berlin",
   "schedule": [
     "after 8am and before 12pm every weekday",
     "after 10pm every weekend",
