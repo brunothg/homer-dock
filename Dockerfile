@@ -20,6 +20,9 @@ LABEL org.opencontainers.image.licenses="Apache-2.0"
 ARG HTTPD_HOME="/var/www"
 ENV HTTPD_HOME="$HTTPD_HOME"
 
+ARG HTTPD_CONF="/etc/httpd/httpd.conf"
+ENV HTTPD_CONF="${HTTPD_CONF}"
+
 ARG HOMER_VERSION="latest"
 ENV HOMER_VERSION="$HOMER_VERSION"
 
@@ -44,9 +47,6 @@ RUN set -x  \
 
 
 # Setup server
-ARG HTTPD_CONF="/etc/httpd/httpd.conf"
-ENV HTTPD_CONF="${HTTPD_CONF}"
-
 COPY src/httpd/httpd.conf "${HTTPD_CONF}"
 COPY src/www/ "/tmp/www/"
 COPY LICENSE "/tmp/www/LICENSE"
