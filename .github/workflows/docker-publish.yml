@@ -9,8 +9,12 @@ on:
   schedule:
     - cron: '0 0 * * FRI'
   push:
-    tags: [ 'v*.*.*' ]
-    branches: [ "develop" ]
+    tags: [
+      'v*.*.*'
+    ]
+    branches: [
+      "develop"
+    ]
   pull_request:
     branches: [
       "main",
