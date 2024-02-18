@@ -78,7 +78,7 @@ HOMER_WEB_CONFIG="${HOMER_WEB_CONFIG:-1}"
 
 if [ "$HOMER_WEB_CONFIG" -eq "0" ]
 then
-  rm -r "$HTTPD_HOME/config"
+  rm -rf "$HTTPD_HOME/config"
 fi
 
 
@@ -102,7 +102,7 @@ then
   cgi_bin="${HTTPD_HOME}${HTTPD_WEBROOT}/cgi-bin"
   if [ -d "$cgi_bin" ]
   then
-    mv "$cgi_bin" "$HTTPD_HOME"
+    mv -f "$cgi_bin" "$HTTPD_HOME"
   fi
 fi
 
@@ -114,7 +114,6 @@ export HTTPD_USER="www-data"
 export HTTPD_USERID="${HTTPD_USERID:-82}"
 export HTTPD_GROUP="$HTTPD_USER"
 export HTTPD_GROUPID="${HTTPD_GROUPID:-$HTTPD_USERID}"
-export HTTPD_HOME="${HTTPD_HOME:-/var/www}"
 RUN_USER="$HTTPD_USER"
 
 if [ -n "$(grep "$HTTPD_USER" "/etc/passwd" | cut -d ':' -f3)" ]

@@ -35,14 +35,12 @@ The httpd config file can be found at `/etc/httpd/httpd.conf`.
 Homer can be configured per web ui or by editing `/var/www/assets/config.yml` ([DOCS](https://github.com/bastienwirtz/homer/blob/main/docs/configuration.md)).
 Additionally, there are some environment variables that can be passed to `docker run -e X=Y <image>`
 or `docker run --env-file <image>`:
- * HTTPD_CONF="/etc/httpd/httpd.conf"
- * HTTPD_HOME="/var/www"
- * HTTPD_IP=*
- * HTTPD_PORT=8080
- * HTTPD_WEBROOT="/"
- * HTTPD_USERID=82
- * HTTPD_GROUPID=$HTTPD_USERID
- * HOMER_WEB_CONFIG=1
+ * HTTPD_IP=* (Set ip adress httpd should bind to)
+ * HTTPD_PORT=8080 (Set port httpd should bind to)
+ * HTTPD_WEBROOT="/" (Set webroot from where httpd should serve the website)
+ * HTTPD_USERID=82 (Set id for www-data user used by httpd)
+ * HTTPD_GROUPID=$HTTPD_USERID (Set id for www-data group used by httpd)
+ * HOMER_WEB_CONFIG=1 (En-/Disable web config user interface)
 
 ## Nginx config
 Using Nginx as reverse proxy, you can use the following extract as a base configuration:

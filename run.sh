@@ -31,7 +31,7 @@ do
 done
 if ! command -v "$DOCK_CMD" &> /dev/null
 then
-  echo "Set DOCK_CMD accordingly or install any of: ${DOCK_CMD_FALLBACKS[@]}"
+  echo "Set DOCK_CMD accordingly or install any of: ${DOCK_CMD_FALLBACKS[*]}"
   exit 1
 fi
 
