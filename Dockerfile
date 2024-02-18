@@ -31,7 +31,6 @@ COPY src/httpd/php.override.ini /etc/php82/conf.d/php.override.ini
 RUN set -x  \
     && apk add --no-cache --virtual .build-deps \
           wget \
-          jq \
           unzip \
     && mkdir -p "$HTTPD_HOME" \
     && mkdir -p "$(dirname "$HTTPD_CONF")" \
@@ -43,7 +42,8 @@ RUN set -x  \
     && chmod 555 /usr/local/bin/execute && dos2unix /usr/local/bin/execute \
     && chmod 444 /etc/php82/conf.d/php.override.ini && dos2unix /etc/php82/conf.d/php.override.ini \
     && wget "https://github.com/bastienwirtz/homer/releases/download/$HOMER_VERSION/homer.zip" -O "/tmp/homer.zip" \
-    && unzip -d "${HTTPD_HOME}" "/tmp/homer.zip"
+    && unzip -d "${HTTPD_HOME}" "/tmp/homer.zip" \
+    && apk del .build-deps
 
 
 # Setup server
@@ -59,9 +59,8 @@ RUN set -x \
 
 
 # Clean build artifacts
-RUN set -x && \
-    rm -rf /tmp/* \
-    && apk del .build-deps
+RUN set -x \
+    && rm -rf /tmp/*
 
 
 # Install entrypoint
