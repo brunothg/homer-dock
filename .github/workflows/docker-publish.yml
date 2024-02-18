@@ -6,12 +6,15 @@ name: Docker
 # documentation.
 
 on:
-#  schedule:
-#    - cron: '44 15 * * *'
+  schedule:
+    - cron: '0 0 * * FRI'
   push:
     tags: [ 'v*.*.*' ]
   pull_request:
-    branches: [ "main", "develop" ]
+    branches: [
+      "main",
+      "develop"
+    ]
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -45,8 +48,6 @@ jobs:
       - name: Install cosign
         if: github.event_name != 'pull_request'
         uses: sigstore/cosign-installer@v3.1.1
-        with:
-          cosign-release: 'v2.1.1'
 
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v2
