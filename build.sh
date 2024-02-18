@@ -11,22 +11,38 @@
 ####################
 # System variables #
 ####################
-
 SELF_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
 DIR_SCRIPT="$(dirname "$SELF_SCRIPT")"
 PWD_SCRIPT="$(pwd)"
 echo "Running '$SELF_SCRIPT' in '$PWD_SCRIPT'"
 
+##################
+# Setup dock cmd #
+##################
+DOCK_CMD="${DOCK_CMD}"
+DOCK_CMD_FALLBACKS=( "$DOCK_CMD" podman docker )
+for cmd in "${DOCK_CMD_FALLBACKS[@]}"
+do
+  if command -v "$cmd" &> /dev/null
+  then
+    DOCK_CMD="$cmd"
+    break
+  fi
+done
+if ! command -v "$DOCK_CMD" &> /dev/null
+then
+  echo "Set DOCK_CMD accordingly or install any of: ${DOCK_CMD_FALLBACKS[@]}"
+  exit 1
+fi
+
 #####################
 # Load dependencies #
 #####################
-
 source "$DIR_SCRIPT/build.conf"
 
 #################
 # Prepare build #
 #################
-
 PROJECT_DTAG="$PROJECT_DTAG"
 if [ -z "$PROJECT_DTAG" ]
 then
@@ -37,7 +53,7 @@ fi
 # Build docker image #
 ######################
 echo "Build docker image: PROJECT_DTAG=$PROJECT_DTAG, ALPINE_VERSION=$ALPINE_VERSION, HOMER_VERSION=$HOMER_VERSION"
-docker build \
+"$DOCK_CMD" build \
   --tag "$PROJECT_DTAG" \
   --label "org.opencontainers.image.version=latest" \
   --build-arg ALPINE_VERSION="${ALPINE_VERSION:?}" \
