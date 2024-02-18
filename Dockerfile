@@ -39,7 +39,7 @@ RUN set -x  \
     && ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi" \
     && chmod 555 /usr/local/bin/execute && dos2unix /usr/local/bin/execute \
     && chmod 444 /etc/php82/conf.d/php.override.ini && dos2unix /etc/php82/conf.d/php.override.ini \
-    && wget "https://github.com/bastienwirtz/homer/releases/download/v$HOMER_VERSION/homer.zip" -O "/tmp/homer.zip" \
+    && wget "https://github.com/bastienwirtz/homer/releases/download/$HOMER_VERSION/homer.zip" -O "/tmp/homer.zip" \
     && unzip -d "${HTTPD_HOME}" "/tmp/homer.zip"
 
 
