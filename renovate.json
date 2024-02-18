@@ -1,6 +1,45 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "configMigration": true,
   "extends": [
     "config:recommended"
+  ],
+  "baseBranches": [
+    "develop"
+  ],
+  "assignees": [
+    "brunothg"
+  ],
+  "platformAutomerge": true,
+  "schedule": [
+    "after 8am and before 12pm every weekday",
+    "after 10pm and before 8am every weekend"
+  ],
+  "enabledManagers": [
+    "github-actions",
+    "custom.regex"
+  ],
+  "customManagers": [
+    {
+      "description": "build.conf manager",
+      "customType": "regex",
+      "fileMatch": [
+        ""
+      ],
+      "matchStrings": [
+        "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)(?:\\s*\\n).*?_VERSION=(?<currentValue>.*)(?:\\s*\\n|$)"
+      ]
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Automatically patch-level updates",
+      "matchUpdateTypes": [
+        "patch",
+        "digest"
+      ],
+      "automerge": true,
+      "automergeType": "branch"
+    }
   ]
 }
