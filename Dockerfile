@@ -27,7 +27,6 @@ ARG HOMER_VERSION="latest"
 ENV HOMER_VERSION="$HOMER_VERSION"
 
 # TODO single copy src to tmp and RUN from there
-# FIXME cgi link only if not exists
 
 # Install deps
 RUN set -x  \
@@ -40,7 +39,7 @@ RUN set -x  \
       busybox-extras \
       bash \
       php82-cgi \
-    && {ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi"} \
+    && ( [ -e "/usr/bin/php-cgi" ] || ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi" ) \
     && wget "https://github.com/bastienwirtz/homer/releases/download/$HOMER_VERSION/homer.zip" -O "/tmp/homer.zip" \
     && unzip -d "${HTTPD_HOME}" "/tmp/homer.zip" \
     && rm -rf /tmp/* \
