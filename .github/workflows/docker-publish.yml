@@ -82,8 +82,7 @@ jobs:
             type=semver,pattern={{major}}
             type=semver,pattern=v{{version}}
             type=semver,pattern=v{{major}}.{{minor}}
-            type=semver,pattern=v{{major}}
-            type=sha
+            type=semver,pattern=v{{major}
             type=edge,branch=main
 
       # Build and push Docker image with Buildx (don't push on PR)
