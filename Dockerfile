@@ -26,40 +26,29 @@ ENV HTTPD_CONF="${HTTPD_CONF}"
 ARG HOMER_VERSION="latest"
 ENV HOMER_VERSION="$HOMER_VERSION"
 
-# TODO single copy src to tmp and RUN from there
-
 # Install deps
 RUN set -x  \
     && apk add --no-cache --virtual .build-deps \
           wget \
           unzip \
-    && mkdir -p "$HTTPD_HOME" \
-    && mkdir -p "$(dirname "$HTTPD_CONF")" \
     && apk add --no-cache \
       busybox-extras \
       bash \
       php82-cgi \
     && ( [ -e "/usr/bin/php-cgi" ] || ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi" ) \
-    && wget "https://github.com/bastienwirtz/homer/releases/download/$HOMER_VERSION/homer.zip" -O "/tmp/homer.zip" \
-    && unzip -d "${HTTPD_HOME}" "/tmp/homer.zip" \
-    && rm -rf /tmp/* \
-    && apk del .build-deps
+    && mkdir -p "$HTTPD_HOME" && wget "https://github.com/bastienwirtz/homer/releases/download/$HOMER_VERSION/homer.zip" -O "/tmp/homer.zip" && unzip -d "${HTTPD_HOME}" "/tmp/homer.zip" \
+    && rm -rf /tmp/* && apk del .build-deps
 
 
 # Setup server
-COPY src/httpd/php.override.ini /etc/php82/conf.d/php.override.ini
-COPY src/httpd/execute.sh /usr/local/bin/execute
-COPY src/httpd/httpd.conf "${HTTPD_CONF}"
-COPY src/www/ "/tmp/www/"
-COPY LICENSE "/tmp/www/LICENSE"
+COPY src/ "/tmp/src/"
 RUN set -x \
-    && chmod 555 /usr/local/bin/execute && dos2unix /usr/local/bin/execute \
-    && chmod 444 /etc/php82/conf.d/php.override.ini && dos2unix /etc/php82/conf.d/php.override.ini \
-    && chmod 444 "${HTTPD_CONF}" && dos2unix "${HTTPD_CONF}" \
+    && cp -a "/tmp/src/httpd/execute.sh" "/usr/local/bin/execute" && chmod 555 "/usr/local/bin/execute" && dos2unix "/usr/local/bin/execute" \
+    && cp -a "/tmp/src/httpd/php.override.ini" "/etc/php82/conf.d/php.override.ini" && chmod 444 "/etc/php82/conf.d/php.override.ini" && dos2unix "/etc/php82/conf.d/php.override.ini" \
+    && mkdir -p "$(dirname "$HTTPD_CONF")" && cp -a "/tmp/src/httpd/httpd.conf" "${HTTPD_CONF}" && chmod 444 "${HTTPD_CONF}" && dos2unix "${HTTPD_CONF}" \
     && find "${HTTPD_HOME}/assets/" -mindepth 1 -maxdepth 1 ! -name 'manifest.json' ! -name 'icons' -exec rm -rf {} ';' \
     && rm -f "${HTTPD_HOME}/logo.png" \
-    && cp -a "/tmp/www/." "${HTTPD_HOME}" \
-    && find "${HTTPD_HOME}" -type f '(' -iname '*.sh' -o -iname '*.exec' -o -iname '*.cgi' ')' -exec chmod 550 {} ';' -exec dos2unix {} ';' \
+    && cp -a "/tmp/src/www/." "${HTTPD_HOME}" && find "${HTTPD_HOME}" -type f '(' -iname '*.sh' -o -iname '*.exec' -o -iname '*.cgi' ')' -exec chmod 550 {} ';' -exec dos2unix {} ';' \
     && rm -rf /tmp/*
 
 # Install entrypoint
