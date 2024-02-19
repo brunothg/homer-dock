@@ -28,32 +28,31 @@ ENV HOMER_VERSION="$HOMER_VERSION"
 
 # Install deps
 RUN set -x  \
-    && apk add --no-cache --virtual .build-deps \
+    && echo "Install dependencies" \
+    && echo "Add build dependencies" && apk add --no-cache --virtual .build-deps \
           wget \
           unzip \
-    && apk add --no-cache \
+    && echo "Add runtime depdendencies" && apk add --no-cache \
       busybox-extras \
       bash \
       php82-cgi \
-    && ( [ -e "/usr/bin/php-cgi" ] || ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi" ) \
-    && mkdir -p "$HTTPD_HOME" && wget "https://github.com/bastienwirtz/homer/releases/download/$HOMER_VERSION/homer.zip" -O "/tmp/homer.zip" && unzip -d "${HTTPD_HOME}" "/tmp/homer.zip" \
-    && rm -rf /tmp/* && apk del .build-deps
+    && echo "Setup CGI bin link" && ( [ -e "/usr/bin/php-cgi" ] || ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi" ) \
+    && echo "Add homer" && mkdir -p "$HTTPD_HOME" && wget "https://github.com/bastienwirtz/homer/releases/download/$HOMER_VERSION/homer.zip" -O "/tmp/homer.zip" && unzip -d "${HTTPD_HOME}" "/tmp/homer.zip" \
+    && echo "Remove temporary artifacts" && rm -rf /tmp/* && apk del .build-deps
 
 
 # Setup server
 COPY src/ "/tmp/src/"
 RUN set -x \
-    && cp -a "/tmp/src/httpd/execute.sh" "/usr/local/bin/execute" && chmod 555 "/usr/local/bin/execute" && dos2unix "/usr/local/bin/execute" \
-    && cp -a "/tmp/src/httpd/php.override.ini" "/etc/php82/conf.d/php.override.ini" && chmod 444 "/etc/php82/conf.d/php.override.ini" && dos2unix "/etc/php82/conf.d/php.override.ini" \
-    && mkdir -p "$(dirname "$HTTPD_CONF")" && cp -a "/tmp/src/httpd/httpd.conf" "${HTTPD_CONF}" && chmod 444 "${HTTPD_CONF}" && dos2unix "${HTTPD_CONF}" \
-    && find "${HTTPD_HOME}/assets/" -mindepth 1 -maxdepth 1 ! -name 'manifest.json' ! -name 'icons' -exec rm -rf {} ';' \
-    && rm -f "${HTTPD_HOME}/logo.png" \
-    && cp -a "/tmp/src/www/." "${HTTPD_HOME}" && find "${HTTPD_HOME}" -type f '(' -iname '*.sh' -o -iname '*.exec' -o -iname '*.cgi' ')' -exec chmod 550 {} ';' -exec dos2unix {} ';' \
-    && rm -rf /tmp/*
+    && echo "Setup server" \
+    && echo "Add execute bin" && cp -a "/tmp/src/httpd/execute.sh" "/usr/local/bin/execute" && chmod 555 "/usr/local/bin/execute" && dos2unix "/usr/local/bin/execute" \
+    && echo "Add php config" && cp -a "/tmp/src/httpd/php.override.ini" "/etc/php82/conf.d/php.override.ini" && chmod 444 "/etc/php82/conf.d/php.override.ini" && dos2unix "/etc/php82/conf.d/php.override.ini" \
+    && echo "Add httpd config" && mkdir -p "$(dirname "$HTTPD_CONF")" && cp -a "/tmp/src/httpd/httpd.conf" "${HTTPD_CONF}" && chmod 444 "${HTTPD_CONF}" && dos2unix "${HTTPD_CONF}" \
+    && echo "Remove unused homer artifacts" && find "${HTTPD_HOME}/assets/" -mindepth 1 -maxdepth 1 ! -name 'manifest.json' ! -name 'icons' -exec rm -rf {} ';' \
+    && echo "Remove default homer logo" && rm -f "${HTTPD_HOME}/logo.png" \
+    && echo "Add homer config ui" && cp -a "/tmp/src/www/." "${HTTPD_HOME}" && find "${HTTPD_HOME}" -type f '(' -iname '*.sh' -o -iname '*.exec' -o -iname '*.cgi' ')' -exec chmod 550 {} ';' -exec dos2unix {} ';' \
+    && echo "Install entrypoint" && cp -a "/tmp/src/entrypoint.sh" "/root/entrypoint.sh" && chmod 500 "/root/entrypoint.sh" && dos2unix "/root/entrypoint.sh" \
+    && echo "Remove temporary artifacts" && rm -rf /tmp/*
 
-# Install entrypoint
-COPY src/entrypoint.sh /root/entrypoint.sh
-RUN set -x \
-    && chmod 500 /root/entrypoint.sh && dos2unix /root/entrypoint.sh
 WORKDIR "${HTTPD_HOME}"
 ENTRYPOINT ["/root/entrypoint.sh"]
