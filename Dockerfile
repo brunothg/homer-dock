@@ -27,10 +27,9 @@ ARG HOMER_VERSION="latest"
 ENV HOMER_VERSION="$HOMER_VERSION"
 
 # TODO single copy src to tmp and RUN from there
-# TODO RUN 1 install deps, RUN 2 setup app
 # FIXME cgi link only if not exists
-COPY src/httpd/execute.sh /usr/local/bin/execute
-COPY src/httpd/php.override.ini /etc/php82/conf.d/php.override.ini
+
+# Install deps
 RUN set -x  \
     && apk add --no-cache --virtual .build-deps \
           wget \
@@ -41,30 +40,28 @@ RUN set -x  \
       busybox-extras \
       bash \
       php82-cgi \
-    && ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi" \
-    && chmod 555 /usr/local/bin/execute && dos2unix /usr/local/bin/execute \
-    && chmod 444 /etc/php82/conf.d/php.override.ini && dos2unix /etc/php82/conf.d/php.override.ini \
+    && {ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi"} \
     && wget "https://github.com/bastienwirtz/homer/releases/download/$HOMER_VERSION/homer.zip" -O "/tmp/homer.zip" \
     && unzip -d "${HTTPD_HOME}" "/tmp/homer.zip" \
+    && rm -rf /tmp/* \
     && apk del .build-deps
 
 
 # Setup server
+COPY src/httpd/php.override.ini /etc/php82/conf.d/php.override.ini
+COPY src/httpd/execute.sh /usr/local/bin/execute
 COPY src/httpd/httpd.conf "${HTTPD_CONF}"
 COPY src/www/ "/tmp/www/"
 COPY LICENSE "/tmp/www/LICENSE"
 RUN set -x \
+    && chmod 555 /usr/local/bin/execute && dos2unix /usr/local/bin/execute \
+    && chmod 444 /etc/php82/conf.d/php.override.ini && dos2unix /etc/php82/conf.d/php.override.ini \
     && chmod 444 "${HTTPD_CONF}" && dos2unix "${HTTPD_CONF}" \
     && find "${HTTPD_HOME}/assets/" -mindepth 1 -maxdepth 1 ! -name 'manifest.json' ! -name 'icons' -exec rm -rf {} ';' \
     && rm -f "${HTTPD_HOME}/logo.png" \
     && cp -a "/tmp/www/." "${HTTPD_HOME}" \
-    && find "${HTTPD_HOME}" -type f '(' -iname '*.sh' -o -iname '*.exec' -o -iname '*.cgi' ')' -exec chmod 550 {} ';' -exec dos2unix {} ';'
-
-
-# Clean build artifacts
-RUN set -x \
+    && find "${HTTPD_HOME}" -type f '(' -iname '*.sh' -o -iname '*.exec' -o -iname '*.cgi' ')' -exec chmod 550 {} ';' -exec dos2unix {} ';' \
     && rm -rf /tmp/*
-
 
 # Install entrypoint
 COPY src/entrypoint.sh /root/entrypoint.sh
