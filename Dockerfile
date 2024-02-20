@@ -8,23 +8,21 @@
 
 ARG ALPINE_VERSION="latest"
 FROM alpine:$ALPINE_VERSION
-ENV ALPINE_VERSION="$ALPINE_VERSION"
 
 LABEL org.opencontainers.image.authors="brunothg"
 LABEL org.opencontainers.image.source="https://github.com/brunothg/homer-dock"
 LABEL org.opencontainers.image.description="Docker image for Homer dashboard with web configuration UI"
 LABEL org.opencontainers.image.licenses="Apache-2.0"
 
-
 # Setup environment
 ARG HTTPD_HOME="/var/www"
-ENV HTTPD_HOME="$HTTPD_HOME"
-
 ARG HTTPD_CONF="/etc/httpd/httpd.conf"
-ENV HTTPD_CONF="${HTTPD_CONF}"
-
 ARG HOMER_VERSION="latest"
-ENV HOMER_VERSION="$HOMER_VERSION"
+
+ENV ALPINE_VERSION="$ALPINE_VERSION" \
+    HTTPD_HOME="$HTTPD_HOME" \
+    HTTPD_CONF="${HTTPD_CONF}" \
+    HOMER_VERSION="$HOMER_VERSION"
 
 # Install deps
 RUN set -x  \
