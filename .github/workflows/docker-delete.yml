@@ -2,7 +2,7 @@ name: Docker Delete
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * MON'
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -27,4 +27,11 @@ jobs:
           package-type: container
           package-name: homer-dock
           delete-only-untagged-versions: true
+          min-versions-to-keep: 0
+      - name: Delete unversioned packages
+        uses: actions/delete-package-versions@v5
+        with:
+          package-type: container
+          package-name: homer-dock
+          ignore-versions: '^[vV]?[0-9]+(\\.[0-9]+)?(\\.[0-9]+)?([-].+)?([+].+)?$'
           min-versions-to-keep: 0
