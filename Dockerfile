@@ -9,10 +9,10 @@
 ARG ALPINE_VERSION="latest"
 FROM alpine:$ALPINE_VERSION
 
-LABEL org.opencontainers.image.authors="brunothg"
-LABEL org.opencontainers.image.source="https://github.com/brunothg/homer-dock"
-LABEL org.opencontainers.image.description="Docker image for Homer dashboard with web configuration UI"
-LABEL org.opencontainers.image.licenses="Apache-2.0"
+LABEL org.opencontainers.image.authors="brunothg" \
+      org.opencontainers.image.source="https://github.com/brunothg/homer-dock" \
+      org.opencontainers.image.description="Docker image for Homer dashboard with web configuration UI" \
+      org.opencontainers.image.licenses="Apache-2.0"
 
 # Setup environment
 ARG HTTPD_HOME="/var/www"
