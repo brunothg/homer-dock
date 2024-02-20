@@ -33,5 +33,5 @@ jobs:
         with:
           package-type: container
           package-name: homer-dock
-          ignore-versions: '^[vV]?[0-9]+(\\.[0-9]+)?(\\.[0-9]+)?([-].+)?([+].+)?$'
+          ignore-versions: '^(([vV]?[0-9]+(\\.[0-9]+)?(\\.[0-9]+)?([-].+)?([+].+)?)|(edge))$'
           min-versions-to-keep: 0
