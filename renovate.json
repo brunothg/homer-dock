@@ -42,6 +42,13 @@
       ],
       "automerge": true,
       "automergeType": "branch"
+    },
+    {
+      "description": "Somewhat loose semver-coerced",
+      "matchPackageNames": [
+        "bastienwirtz/homer"
+      ],
+      "allowedVersions": "/[vV]?[0-9]+\\.[0-9]+\\.[0-9]+([+-].+)*/"
     }
   ]
 }
