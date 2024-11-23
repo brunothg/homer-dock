@@ -31,8 +31,9 @@ RUN set -x  \
           wget \
           unzip \
     && echo "Add runtime depdendencies" && apk add --no-cache \
-      busybox-extras \
+      dumb-init \
       bash \
+      busybox-extras \
       php82-cgi \
     && echo "Setup CGI bin link" && ( [ -e "/usr/bin/php-cgi" ] || ln -s "/usr/bin/php-cgi82" "/usr/bin/php-cgi" ) \
     && echo "Add homer" && mkdir -p "$HTTPD_HOME" && wget "https://github.com/bastienwirtz/homer/releases/download/$HOMER_VERSION/homer.zip" -O "/tmp/homer.zip" && unzip -d "${HTTPD_HOME}" "/tmp/homer.zip" \
@@ -53,4 +54,4 @@ RUN set -x \
     && echo "Remove temporary artifacts" && rm -rf /tmp/*
 
 WORKDIR "${HTTPD_HOME}"
-ENTRYPOINT ["/root/entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--", "/root/entrypoint.sh"]
