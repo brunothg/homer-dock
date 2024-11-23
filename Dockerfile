@@ -54,4 +54,4 @@ RUN set -x \
     && echo "Remove temporary artifacts" && rm -rf /tmp/*
 
 WORKDIR "${HTTPD_HOME}"
-ENTRYPOINT ["/root/entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--", "/root/entrypoint.sh"]

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# TODO run with dumb-init
 
 # Copyright 2023 brunothg
 #
