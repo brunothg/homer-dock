@@ -25,8 +25,8 @@
     {
       "description": "build.conf manager",
       "customType": "regex",
-      "fileMatch": [
-        "(?:^|/)build\\.conf$"
+      "managerFilePatterns": [
+        "/(?:^|/)build\\.conf$/"
       ],
       "matchStrings": [
         "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)(?: versioning=(?<versioning>.*?))?(?:\\s*\\n).*?_VERSION=(?<currentValue>.*)(?:\\s*\\n|$)"
