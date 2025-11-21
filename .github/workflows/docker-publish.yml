@@ -41,7 +41,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Load build.conf
         run: cat build.conf | sed "s/^[ \t]*//" | grep "^[^#].*" >> "$GITHUB_ENV"
